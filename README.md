@@ -94,19 +94,17 @@ Mandatory Request body along with BasicAuth Username and Password in format:
 {
   "first_name": "Jane",
   "last_name": "Doe",
-  "password": "skdjfhskdfjhg"
+  "password": "<enter your password>"
 }
 ```
 
-
-
 Hit the endpoint http://localhost:8080/healthz using Postman:
 
-1) If the database server is up and running AND it is a GET request AND there is no query parameters this will return 200 OK.
+1. If the database server is up and running AND it is a GET request AND there is no query parameters this will return 200 OK.
 
 ![Alt text](images/image.png)
 
-2) If the request method is NOT GET then the response will be 405 Method Not Allowed irrespective of the request method AND status of the database server.
+2. If the request method is NOT GET then the response will be 405 Method Not Allowed irrespective of the request method AND status of the database server.
 
 ![Alt text](images/image-1.png)
 
@@ -116,10 +114,10 @@ Hit the endpoint http://localhost:8080/healthz using Postman:
 
 ![Alt text](images/image-4.png)
 
-3) If the database server is up and running AND it is a GET request AND there some query parameters, this will return 400 Bad Request.
+3. If the database server is up and running AND it is a GET request AND there some query parameters, this will return 400 Bad Request.
 
 ![Alt text](images/image-5.png)
 
-4)  If the database server is in stopped state AND it is a GET request then, this will return 503 Service Unavailable.
-   
-   ![Alt text](images/image-6.png)
+4.  If the database server is in stopped state AND it is a GET request then, this will return 503 Service Unavailable.
+
+![Alt text](images/image-6.png)
