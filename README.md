@@ -98,15 +98,13 @@ Mandatory Request body along with BasicAuth Username and Password in format:
 }
 ```
 
-
-
 Hit the endpoint http://localhost:8080/healthz using Postman:
 
-1) If the database server is up and running AND it is a GET request AND there is no query parameters this will return 200 OK.
+1. If the database server is up and running AND it is a GET request AND there is no query parameters this will return 200 OK.
 
 ![Alt text](images/image.png)
 
-2) If the request method is NOT GET then the response will be 405 Method Not Allowed irrespective of the request method AND status of the database server.
+2. If the request method is NOT GET then the response will be 405 Method Not Allowed irrespective of the request method AND status of the database server.
 
 ![Alt text](images/image-1.png)
 
@@ -116,10 +114,22 @@ Hit the endpoint http://localhost:8080/healthz using Postman:
 
 ![Alt text](images/image-4.png)
 
-3) If the database server is up and running AND it is a GET request AND there some query parameters, this will return 400 Bad Request.
+3. If the database server is up and running AND it is a GET request AND there some query parameters, this will return 400 Bad Request.
 
 ![Alt text](images/image-5.png)
 
-4)  If the database server is in stopped state AND it is a GET request then, this will return 503 Service Unavailable.
-   
-   ![Alt text](images/image-6.png)
+4.  If the database server is in stopped state AND it is a GET request then, this will return 503 Service Unavailable.
+
+![Alt text](images/image-6.png)
+
+## Integration Tests for /v1/user Endpoint
+
+# Test 1: Create Account
+
+This test verifies the creation of a new account by sending a POST request to the /v1/user endpoint. It then uses a GET call to validate that the created account exists in the database.
+
+# Test 2: Update Account
+
+This test ensures the correct updating of an existing account by first sending a PUT request to update the account information through the /v1/user endpoint. It then utilizes a GET call to verify that the account was successfully updated in the database.
+
+![Alt text](images/image-7.png)

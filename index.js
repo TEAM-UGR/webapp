@@ -92,3 +92,4 @@ async function createDatabaseAndSyncModels() {
     console.error("Failed to set up database and models:", error);
   }
 }
+module.exports = app;

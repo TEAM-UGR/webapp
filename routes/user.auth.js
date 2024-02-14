@@ -79,6 +79,7 @@ const basicAuth = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader || !authHeader.startsWith("Basic ")) {
+    console.log("/n/n/n/n AUTH /n/n/n/n/n")
     return res
       .status(401).header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "Missing or invalid Authorization header" });
@@ -96,11 +97,13 @@ const basicAuth = async (req, res, next) => {
     });
 
     if (!user) {
+      console.log("/n/n/n/n USER /n/n/n/n/n")
       return res.status(401).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Invalid username or password" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
+      console.log("/n/n/n/n PASSWORD /n/n/n/n/n")
       return res.status(401).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Invalid username or password" });
     }
 

@@ -1,0 +1,427 @@
+Assignment #00¶
+Learning Objectives & Assignment Goals¶
+The goal of this assignment is to setup local development environment and sign up for cloud & SaaS services we will use in this course. An easy way to relate to this assignment is to think of the work developers usually do in their first day/week at a new job.
+
+Note
+
+This assignment is a prerequisite for getting future assignments graded.
+Individual assignment weightage on the course grade of this assignment is 0%.
+Students are solely responsible for the cost of tools and services used in the course. Northeastern University, College of Engineering, and the instructor will not be responsible for any of the charges incurred.
+The cloud service provider might require a valid credit or debit card even for free tiers. If you do not have a credit or debit card, please let the instructor or TA know ASAP.
+Due Date¶
+Section	Submission Due Date	Grading Due Date
+Boston	N/A	N/A
+Seattle & Silicon Valley	N/A	N/A
+Getting Help¶
+Info
+
+Ask all your questions in Canvas discussion thread.
+
+Assignment Tasks¶
+Account Signups¶
+Info
+
+Don't create a new account for the course if you have an existing account with any of these services.
+Set up MFA
+
+You are responsible for the security of your account. It is important that you use strong passwords for all accounts and set up multi-factor authentication for all accounts to add an extra layer of security.
+
+Sign up for Github Student Developer pack.
+Sign up for Amazon Web Services (AWS).
+Sign up for Google Cloud Platform (GCP). Do not use your Northeastern University email for account sign up.
+Register for a student license from JetBrains. You will be able to use an IDE such as IntelliJ IDEA Ultimate with your choice of programming language such as Go, Java, PHP, Ruby, Python, JavaScript, etc.
+Optionally sign up for Namecheap account.
+Sign up for a Github account. Make sure to personalize your GitHUb profile by setting your profile name and optionally profile picture.
+Setup Development Environment¶
+Download and install the latest version of Git.
+Set your username in Git.
+Set your commit email address in Git.
+Configure your system to connect to GitHub with SSH.
+Install a text editor you are most familiar with. I highly recommend Visual Studio Code and following plugins for it:
+GitLens — Git supercharged
+HashiCorp Terraform
+HCL
+Markdown All in One
+Prettify JSON
+ShellCheck
+vscode-base64
+YAML
+Python
+Install IntelliJ IDEA Ultimate if you plan to use it.
+Install MySQL or PostgreSQL database.
+
+
+
+
+
+
+Assignment #01¶
+Due Date¶
+Section	Submission Due Date	Grading Due Date
+Boston	01/31/2024 @ 9 PM EDT	02/07/2024 @ 9 PM EDT
+Seattle & Silicon Valley	02/02/2024 @ 9 PM PDT	02/09/2024 @ 6 PM PDT
+Getting Help¶
+Info
+
+Ask all your questions in Canvas Discussion. SEA/SJO can ask questions in Teams.
+
+Learning Objectives¶
+The objective of this assignment is to select a technology stack for a backend (API only) web application and to implement health check API. The technology stack must meets Cloud-Native Web Application Requirements as outlined below.
+
+Cloud Native Web Application Requirements¶
+A cloud-native application is an application that is specifically designed for cloud computing architecture. It takes advantage of cloud computing frameworks, which are composed of loosely coupled cloud services.
+
+Server Operating System: CentOS 8
+Programming Language: Any high-level programming language such as Java, Python, Go, Node.js or PHP.
+Relational Database: Either MySQL or PostgreSQL. Do not use MongoDB, MSSQL, Oracle, etc.
+Backend Framework: Any open-source framework such as Spring, Hibernate, etc.
+ORM Framework:
+Java: Hibernate
+Golang: GORM
+JavaScript: Sequelize
+Python: SQLAlchemy
+UI Framework: N/A
+CSS: N/A
+Web Application Development¶
+
+
+RESTful API Requirements¶
+All API request/response payloads should be in JSON.
+No UI should be implemented for the application.
+As a user, I expect all API calls to return with a proper HTTP status code.
+As a user, I expect the code quality of the application to be maintained to the highest standards using the unit and/or integration tests.
+
+
+Health Check RESTful API¶
+The question we want to answer is How to detect that a running service instance is unable to handle requests?.
+The health check API is a way for us to monitor the health of the application instance and alerts us when something is not working as expected.
+Health check API allows us to stop sending traffic to unhealthy instances of the application and to automatically replace/repair them. It also helps us improve user experience by not routing their quests to unhealthy instances.
+A Health Check API may check for following:
+
+Database connection - Make sure the application is connected to the database or is able to establish connection at the time of the health check.
+Downstream API Calls - Your application may depend on other downstream APIs and outage of downstream API without which you cannot complete the users request.
+For this assignment, we are going to implement an endpoint /healthz that will do the following when called:
+
+Check if the application has connectivity to the database.
+Return HTTP 200 OK if the connection is successful.
+Return HTTP 503 Service Unavailable if the connection is unsuccessful.
+The API response should not be cached. Make sure to add cache-control: 'no-cache' header to the response.
+The API request should not allow for any payload. The response code should be 400 Bad Request if the request includes any payload.
+The API response should not include any payload.
+Only HTTP GET method is supported for the /healthz endpoint.
+Example Requests¶
+Success
+
+curl -vvvv http://localhost:8080/healthz
+*   Trying 127.0.0.1:8080...
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /healthz HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.1.2
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Cache-Control: no-cache, no-store, must-revalidate;
+< Pragma: no-cache
+< X-Content-Type-Options: nosniff
+< Date: Wed, 20 Sep 2023 01:18:37 GMT
+< Content-Length: 0
+<
+* Connection #0 to host localhost left intact
+Failure
+
+ $ curl -vvvv http://localhost:8080/healthz
+*   Trying 127.0.0.1:8080...
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> GET /healthz HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.1.2
+> Accept: */*
+>
+< HTTP/1.1 503 Service Unavailable
+< Cache-Control: no-cache, no-store, must-revalidate;
+< Pragma: no-cache
+< X-Content-Type-Options: nosniff
+< Date: Wed, 20 Sep 2023 01:18:57 GMT
+< Content-Length: 0
+<
+* Connection #0 to host localhost left intact
+405 Method Not Allowed
+
+ $ curl -vvvv -XPUT http://localhost:8080/healthz
+*   Trying 127.0.0.1:8080...
+* Connected to localhost (127.0.0.1) port 8080 (#0)
+> PUT /healthz HTTP/1.1
+> Host: localhost:8080
+> User-Agent: curl/8.1.2
+> Accept: */*
+>
+< HTTP/1.1 405 Method Not Allowed
+< Cache-Control: no-cache, no-store, must-revalidate;
+< Pragma: no-cache
+< X-Content-Type-Options: nosniff
+< Date: Wed, 20 Sep 2023 01:38:11 GMT
+< Content-Length: 0
+<
+* Connection #0 to host localhost left intact
+Submission¶
+Warning
+
+The assignment will be considered late if uploaded to Canvas after the due date.
+
+Create a folder with the naming convention firstname_lastname_neuid_## where ## is the assignment number.
+Copy complete code for the assignment into this folder.
+Create a create a zip of the firstname_lastname_neuid_## directory. The zip file should be firstname_lastname_neuid_##.zip.
+Now unzip the zip file in some other directory and confirm the content of the zip files.
+Upload the Zip to the correct assignment in Canvas.
+You are allowed to resubmit. If you think there may be an issue with the ZIP file, feel free to submit it again. Only the latest submission will be graded.
+Grading Guidelines¶
+Warning
+
+Following guidelines are for information only. They are subject to change at the discretion of the instructor and TA.
+
+Web Application (100%)¶
+Students will demo the web application from their laptops. Download the zip uploaded to Canvas and use the submitted code for demo. Local code cannot be used for demo.
+APIs can be demoed using any Postman or Restlet or some other REST client but not via the browser.
+The application should not have UI.
+Verify the success and failure by shutting down the database server while the application is still running. Restarting the database without restarting the application should work.
+Verify that the only HTTP request method supported is GET. Making POST, PUT, DELETE, or PATCH requests should return HTTP status code 405 Method Not Allowed.
+Verify that request and response have no payload requirement. The API response should NOT include a body. The request should NOT require any query parameters.
+The application connects to either MySQL or PostgreSQL. No other database is allowed.
+Verify code is not generated by ChatGPT or Google Bard or GitHub co-pilot.
+Application should not throw 500 Internal Server errors.
+Application should not require restart between API calls.
+
+
+
+
+
+
+
+Assignment #02¶
+Due Date¶
+Section	Submission Due Date	Grading Due Date
+Boston	02/7/2024 @ 9 PM EDT	02/15/2024 @ 5 PM EDT
+Seattle & Silicon Valley	02/9/2024 @ 9 PM PDT	02/16/2024 @ 6 PM PDT
+Getting Help¶
+Info
+
+Ask all your questions in Canvas Discussion. SEA/SJO can ask questions in Teams.
+
+Git & GitHub¶
+GitHub Subscription¶
+All students will need to subscribe to the GitHub Team plan.
+Create & Setup GitHub Repository¶
+Create a new private GitHub repository for web applications in the GitHub organization you created.
+The GitHub repository name must be webapp.
+Update README.md in your repository. Your readme file must contain the following:
+Prerequisites for building and deploying your application locally.
+Build and Deploy instructions for the web application.
+Fork the GitHub repository in your namespace. You will do all development work on your fork.
+All web application code should now be in this repository.
+Add appropriate .gitignore to your repository. A collection of useful .gitignore templates can be found here.
+GitHub Repository Branch Protection Rules¶
+Learn more about protected branches.
+Implement Branch Protection Rules shown in the image below:
+
+
+Web Application Development¶
+About the field data types in Swagger Documentation¶
+About the field data types in Swagger docs
+Bootstrapping Database¶
+The application is expected to automatically bootstrap the database at startup.
+
+Bootstrapping creates the schema, tables, indexes, sequences, etc., or updates them if their definition has changed.
+The database cannot be set up manually by running SQL scripts.
+It is highly recommended that you use ORM frameworks such as Hibernate (for java), SQLAlchemy (for python), and Sequelize (for Node.js).
+RESTful API Requirements¶
+All API request/response payloads should be in JSON.
+No UI should be implemented for the application.
+As a user, I expect all API calls to return with a proper HTTP status code.
+As a user, I expect the code quality of the application to be maintained to the highest standards using the unit and/or integration tests. Not required for this assignment.
+Authentication Requirements¶
+The user must provide a basic authentication token when making an API call to the authenticated endpoint.
+The web application must only support Token-Based authentication and not Session Authentication.
+APIs To Implement¶
+Swagger Docs
+
+Your web application must only support Token-Based Basic authentication and not Session Authentication.
+As a user, I must provide a basic authentication token when making an API call to the authenticated endpoint.
+Create a new user
+As a user, I want to create an account by providing the following information.
+Email Address
+Password
+First Name
+Last Name
+account_created field for the user should be set to the current time when user creation is successful.
+Users should not be able to set values for account_created and account_updated. Any value provided for these fields must be ignored.
+Password should never be returned in the response payload.
+As a user, I expect to use my email address as my username.
+Application must return 400 Bad Request HTTP response code when a user account with the email address already exists.
+As a user, I expect my password to be stored securely using the BCrypt password hashing scheme with salt.
+Update user information
+As a user, I want to update my account information. I should only be allowed to update the following fields.
+First Name
+Last Name
+Password
+Attempt to update any other field should return 400 Bad Request HTTP response code.
+account_updated field for the user should be updated when the user update is successful.
+A user can only update their own account information.
+Get user information
+As a user, I want to get my account information. Response payload should return all fields for the user except for password.
+Implement Continuous Integration (CI) with GitHub Actions¶
+Add a GitHub Actions workflow to run simple check (compile code) for each pull request raised. A pull request can only be merged if the workflow executes successfully.
+Add Status Checks GitHub branch protection to prevent users from merging a pull request when the GitHub Actions workflow run fails.
+Submission¶
+Warning
+
+The assignment will be considered late if uploaded to Canvas after the due date.
+
+Create a folder with the naming convention firstname_lastname_neuid_## where ## is the assignment number.
+Clone each (all) repository you have created for the course using git clone command into this directory. It is important that you clone your Organization repository and not your fork.
+Create a create a zip of the firstname_lastname_neuid_## directory. The zip file should be firstname_lastname_neuid_##.zip.
+Now unzip the zip file in some other directory and confirm the content of the zip files.
+Upload the Zip to the correct assignment in Canvas.
+You are allowed to resubmit. If you think there may be an issue with the ZIP file, feel free to submit it again. Only the latest submission will be graded.
+Grading Guidelines¶
+Warning
+
+Following guidelines are for information only. They are subject to change at the discretion of the instructor and TA.
+
+Previous Assignment Objectives¶
+TAs must verify that students have resolved all open issues from the previous assignment(s).
+
+Git & GitHub Repository¶
+Git Repository Content Check (25%)¶
+Check the repository for any IDE-specific files. IDE configuration files must not be in the repository.
+Verify their .gitignore configuration.
+Check the repository for build artifacts such as .class, .jar, .war files and build, node_modules, venv directory. None of these should be checked into the repository.
+Check for dependencies. Dependencies from the Maven repository or npm or python should not be committed to the git repository.
+Git Forking Workflow (25%)¶
+No direct commits are made to organization repository. Verify student is working from forked repository and using feature branch. There should be no direct commits to their main branch in their forked repository.
+GitHub repository has branch protection rule setup.
+GitHub Workflow is triggered when pull request is raised and pull requests can only be merged if the status check is successful. To test failure, ask student to raise a pull request updated the GitHub Actions workflow to execute exit 1 command.
+Web Application (50%)¶
+Students will demo the assignment from CentOS 8 virtual machine running in Digital Ocean (or AWS or GCP).
+
+Preparing for Demo¶
+Launch Centos 8 VM on Digital Ocean (or AWS or GCP).
+Download code submission from Canvas and SCP the zip file to the VM.
+Install MySQL or MariaDB or PostgreSQL RDBMS on the VM.
+Install dependencies such as Node, Python, Java on the VM.
+Build the application from source in ZIP file if needed.
+Application configuration may be manually updated by the student at this point.
+Launch the application and validate that you can hit the healthz endpoint and application is healthy.
+No SQL script should be manually executed to set up the database.
+Bootstrapping Database (20%)¶
+Start the application.
+The database objects such as tables, indexes, etc. should be automatically created when application is started.
+Students are not allowed to run any SQL scripts manually.
+Web Application APIs (30%)¶
+Verify passwords are encrypted with BCrypt hashing and salt in the database.
+Verify that authentication is done via basic auth (token-based) and not session-based.
+APIs can be demoed using any Postman or Restlet or some other REST client but not from the browser.
+Check the response payload to make sure it meets the assignment objective. The password field should not be part of the response payload.
+Test for duplicate account creation in the application. The application should NOT allow multiple accounts with the same email address.
+Test updating fields such as account_created and account_updated. Users should never be able to set values for them. These fields are set by the application.
+Verify non-email username cannot be used for account creation.
+No 500 internal server errors are returned by the application.
+No restart of the application server between API calls.
+
+
+
+
+
+
+
+Assignment #03¶
+Due Date¶
+Section	Submission Due Date	Grading Due Date
+Boston	02/15/2024 @ 4 PM EDT	02/21/2024 @ 9 PM EDT
+Seattle & Silicon Valley	02/16/2024 @ 9 PM PDT	02/23/2024 @ 6 PM PDT
+Learning Objectives¶
+Install gcloud CLI¶
+Install and configure gcloud CLI on your development machine (laptop). See Install the gcloud CLI for detailed instructions.
+
+Infrastructure as Code¶
+Note
+
+Wherever supported, you must provide unique names to the resources. You may be asked to create multiple networks in the same account during the demo.
+
+We are going to start setting up networking in our Google Cloud project. This assignment will focus on setting up our networking resources such as Virtual Private Cloud (VPC), Internet Gateway, Route Table, and Routes. We will use Terraform for infrastructure setup and tear down.
+
+Create & Setup GitHub Repository¶
+Create a new private GitHub repository for web applications in the GitHub organization you created.
+The GitHub repository name must be tf-gcp-infra.
+Update README.md in your repository with instructions for setting up your infrastructure using Terraform.
+Fork the GitHub repository in your namespace. You will do all development work on your fork.
+All Terraform templates should be in this repository.
+Add appropriate .gitignore to your repository. A collection of useful .gitignore templates can be found here.
+GitHub Repository Branch Protection Rules¶
+Learn more about protected branches.
+Implement Branch Protection Rules shown in the image below: 
+Add status check to validate terraform templates when pull request is raised.
+Enable GCP Service APIs¶
+Google Cloud Platform requires you to enable services (APIs) before you can use them. Services should be enabled for the project before they are used. Once services are enabled, it may take 10-15 minutes for them to work. You can do this from the Google Cloud Console and make sure you have these documented in the README.md. DO NOT ENABLE ALL THE APIs.
+
+Google Cloud Platform Networking Setup¶
+Here is what you need to do for networking infrastructure setup:
+
+Create Virtual Private Cloud (VPC) with following requirements:
+auto-create subnets should be disabled.
+Routing mode should be set to regional.
+No default routes should be created.
+Create subnets in your VPC.
+You must create a 2 subnets in the VPC, first one should be named webapp and second one should be named db.
+The subnet has a /24 CIDR address range.
+Add a route to 0.0.0.0/0 with next hop to Internet Gateway and attach it to your `VPC.
+Infrastructure as Code with Terraform¶
+For this objective, you must complete the following tasks:
+
+Install and set up the gcloud CLI and Terraform.
+Create a Terraform configuration file that will setup all the networking resources.
+Values should not be hard coded in your terraform configuration files.
+You must be able to use the same terraform configuration files in the same GCP project and region to create multiple VPCs including all of its resources.
+Web Application - Integration Tests¶
+Danger
+
+Do not implement tests using curl or postman. You will need to execute the tests as part of pull requests and add them to status check.
+
+Implement integration (and not unit) tests for the /v1/user endpoint with a new GitHub Actions workflow. Do not delete workflow from previous assignments as it must continue to function in parallel to the new one.
+Test 1 - Create an account, and using the GET call, validate account exists.
+Test 2 - Update the account and using the GET call, validate the account was updated.
+This will require your GitHub action to install and setup an actual MySQL and PostgreSQL instance and provide configuration to the application to connect to it.
+Submission¶
+Danger
+
+The assignment will be considered late if uploaded to Canvas after the due date.
+DO NOT UPLOAD CODE FROM YOUR FORKED REPOSITORY TO CANVAS
+All work for this assignment must be done on the feature branch in your fork and merged to the main branch.
+Submit your code from all the repositories in this assignment. Read the instructions carefully to create your zip file.
+Create a folder with the naming convention firstname_lastname_neuid_## where ## is the assignment number.
+In the firstname_lastname_neuid_##directory clone all of your GitHub (organization) repositories with the git clone command. It is important that you clone the repos so that your commit history and branches are preserved.
+Once you have cloned all of your repositories, you will create a zip of the firstname_lastname_neuid_## directory. The zip file should be firstname_lastname_neuid_##.zip where ## is the assignment number.
+Now unzip the zip file in some other directory and confirm the content of the zip files.
+Upload the Zip to this assignment.
+You are allowed to resubmit 3 times. If you think there may be an issue with the ZIP file, feel free to submit it again. Only the latest submission will be used for grading.
+Grading Guidelines¶
+Warning
+
+The following guidelines are for information only. They are subject to change at the discretion of the instructor and TA. A 10% penalty will be imposed if the application crashes due to unhandled exceptions/errors.
+
+Previous Assignment Objectives¶
+TAs must verify that students have resolved all open issues from the previous assignment(s).
+
+Git Repository Content Check (10%)¶
+Application Code¶
+Check the repository for any IDE-specific files. IDE configuration files must not be in the repository.
+Verify their .gitignore configuration.
+Check the repository for build artifacts such as .class, .jar, .war files and build, node_modules, venv directory. None of these should be checked into the repository.
+Check for dependencies. Dependencies from the Maven repository or npm or python should not be committed to the git repository.
+Infrastructure Code¶
+Check if the repository has been set up with .gitignore for Terraform.
+Git Forking Workflow (10%)¶
+Verify student has followed the git forking workflow. Code is committed using pull requests and is not pushed directly to the main branch.
+GitHub Status Check for IaC (15%)¶
+Infrastructure as Code (40%)¶
+Web Application - Integration Tests (25%)¶

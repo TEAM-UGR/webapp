@@ -21,4 +21,4 @@ jobs:
       run: npm install
 
     - name: Test
-      run: echo "Welcome to webapp"
+      run: npm test
