@@ -92,7 +92,7 @@ Mandatory Request body along with BasicAuth Username and Password in format:
 
 ```
 {
-  "first_name": "Jane",
+  "first_name": "John",
   "last_name": "Doe",
   "password": "<enter your password>"
 }
