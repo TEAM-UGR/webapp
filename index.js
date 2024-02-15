@@ -94,6 +94,7 @@ async function createDatabaseAndSyncModels() {
     console.log("Database and models are ready.");
   } catch (error) {
     console.error("Failed to set up database and models:", error);
+    process.exit(1);
   }
 }
 module.exports = app;
