@@ -14,14 +14,20 @@ const validateUserCreation = (req, res, next) => {
     (field) => !req.body.hasOwnProperty(field)
   );
   if (missingFields.length > 0) {
-    return res.status(400).header("Cache-Control", "no-cache, no-store, must-revalidate").json({
-      error: `Please provide  : ${missingFields.join(", ")}`,
-    });
+    return res
+      .status(400)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({
+        error: `Please provide  : ${missingFields.join(", ")}`,
+      });
   }
 
   const extraFieldNames = Object.keys(extraFields);
   if (extraFieldNames.length > 0) {
-    return res.status(400).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: `Extra fields are not allowed` });
+    return res
+      .status(400)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({ error: `Extra fields are not allowed` });
   }
 
   next();
@@ -29,12 +35,12 @@ const validateUserCreation = (req, res, next) => {
 
 router.post("/v1/user", validateUserCreation, async (req, res) => {
   const basePath = "/v1/user";
-  const fullPath = req.originalUrl; 
-
+  const fullPath = req.originalUrl;
 
   if (!fullPath.startsWith(basePath) || fullPath.length > basePath.length) {
     return res
-      .status(400).header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .status(400)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "Bad Request: Invalid path or query parameters" });
   }
   try {
@@ -48,7 +54,8 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
 
     if (existingUser) {
       return res
-        .status(400).header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .status(400)
+        .header("Cache-Control", "no-cache, no-store, must-revalidate")
         .json({ error: "User with this email already exists" });
     }
 
@@ -64,24 +71,41 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     });
 
     const { password: _, ...userData } = user.toJSON();
-    res.status(201).header("Cache-Control", "no-cache, no-store, must-revalidate").json(userData);
+    res
+      .status(201)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json(userData);
   } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(555).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Internal creating error" });
+    if (
+      error.name === "SequelizeValidationError" ||
+      error.name === "SequelizeUniqueConstraintError"
+    ) {
+      return res.status(400).json({ error: error.message });
+    } else {
+      console.error("Error creating user:", error);
+      res
+        .status(555)
+        .header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .json({ error: "Internal creating error" });
+    }
   }
 });
 
 router.all("/v1/user", (req, res) => {
-  res.status(405).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Method Not Allowed" });
+  res
+    .status(405)
+    .header("Cache-Control", "no-cache, no-store, must-revalidate")
+    .json({ error: "Method Not Allowed" });
 });
 
 const basicAuth = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader || !authHeader.startsWith("Basic ")) {
-    console.log("/n/n/n/n AUTH /n/n/n/n/n")
+    console.log("/n/n/n/n AUTH /n/n/n/n/n");
     return res
-      .status(401).header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .status(401)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "Missing or invalid Authorization header" });
   }
 
@@ -97,33 +121,41 @@ const basicAuth = async (req, res, next) => {
     });
 
     if (!user) {
-      console.log("/n/n/n/n USER /n/n/n/n/n")
-      return res.status(401).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Invalid username or password" });
+      console.log("/n/n/n/n USER /n/n/n/n/n");
+      return res
+        .status(401)
+        .header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .json({ error: "Invalid username or password" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      console.log("/n/n/n/n PASSWORD /n/n/n/n/n")
-      return res.status(401).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Invalid username or password" });
+      console.log("/n/n/n/n PASSWORD /n/n/n/n/n");
+      return res
+        .status(401)
+        .header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .json({ error: "Invalid username or password" });
     }
 
     req.user = user;
     next();
   } catch (error) {
     console.error("Authentication error:", error);
-    return res.status(555).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Auth Error" });
+    return res
+      .status(555)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({ error: "Auth Error" });
   }
 };
 
 router.use((req, res, next) => {
-  
   const basePath = "/v1/user/self";
-  const fullPath = req.originalUrl; 
-
+  const fullPath = req.originalUrl;
 
   if (!fullPath.startsWith(basePath) || fullPath.length > basePath.length) {
     return res
-      .status(400).header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .status(400)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "jkdsvfn Bad Request: Invalid path or query parameters" });
   }
 
@@ -139,14 +171,17 @@ router.get("/v1/user/self", basicAuth, async (req, res) => {
     account_created,
     account_updated,
   } = req.user;
-  res.status(200).header("Cache-Control", "no-cache, no-store, must-revalidate").json({
-    id,
-    first_name,
-    last_name,
-    username,
-    account_created,
-    account_updated,
-  });
+  res
+    .status(200)
+    .header("Cache-Control", "no-cache, no-store, must-revalidate")
+    .json({
+      id,
+      first_name,
+      last_name,
+      username,
+      account_created,
+      account_updated,
+    });
 });
 
 const validateUserUpdate = (req, res, next) => {
@@ -155,15 +190,21 @@ const validateUserUpdate = (req, res, next) => {
 
   const extraFieldNames = Object.keys(extraFields);
   if (extraFieldNames.length > 0) {
-    return res.status(400).header("Cache-Control", "no-cache, no-store, must-revalidate").json({
-      error: `Extra fields are not allowed!!`,
-    });
+    return res
+      .status(400)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({
+        error: `Extra fields are not allowed!!`,
+      });
   }
 
   if (!first_name && !last_name && !password) {
-    return res.header("Cache-Control", "no-cache, no-store, must-revalidate").status(400).json({
-      error: "Misssing fields : first_name, last_name, or password",
-    });
+    return res
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .status(400)
+      .json({
+        error: "Misssing fields : first_name, last_name, or password",
+      });
   }
 
   next();
@@ -182,7 +223,8 @@ router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
     } catch (error) {
       console.error("Error hashing password:", error);
       return res
-        .status(500).header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .status(500)
+        .header("Cache-Control", "no-cache, no-store, must-revalidate")
         .json({ error: "Internal server error during password hashing" });
     }
   }
@@ -195,18 +237,30 @@ router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
     });
 
     if (updated) {
-      return res.status(204).header("Cache-Control", "no-cache, no-store, must-revalidate").send();
+      return res
+        .status(204)
+        .header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .send();
     } else {
-      return res.status(404).header("Cache-Control", "no-cache, no-store, must-revalidate").send("Rows not updated");
+      return res
+        .status(404)
+        .header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .send("Rows not updated");
     }
   } catch (error) {
     console.error("Error updating user:", error);
-    return res.status(555).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Failed to update" });
+    return res
+      .status(555)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({ error: "Failed to update" });
   }
 });
 
 router.all("/v1/user/self", (req, res) => {
-  res.status(405).header("Cache-Control", "no-cache, no-store, must-revalidate").json({ error: "Method Not Allowed" });
+  res
+    .status(405)
+    .header("Cache-Control", "no-cache, no-store, must-revalidate")
+    .json({ error: "Method Not Allowed" });
 });
 
 module.exports = router;
