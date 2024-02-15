@@ -89,7 +89,7 @@ app.listen(3000, () => {
 async function createDatabaseAndSyncModels() {
   try {
     await createDatabase();
-    await sequelize1.sync();
+    await sequelize.sync();
     // await bootstrapDatabase()
     console.log("Database and models are ready.");
   } catch (error) {
