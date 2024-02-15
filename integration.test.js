@@ -7,7 +7,7 @@ describe("Integration Test 1 for creating a user and validating using GET", () =
       first_name: "Rohan",
       last_name: "Biradar",
       password: "Asb@1999",
-      username: "xxxxx@mail.com",
+      username: "aaaa@mail.com",
     };
     const responsePOST = await request(app).post("/v1/user").send(req);
     expect(responsePOST.statusCode).toEqual(201);
