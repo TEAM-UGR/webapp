@@ -116,7 +116,7 @@ const basicAuth = async (req, res, next) => {
 };
 
 router.use((req, res, next) => {
-  // Allowed base path
+  
   const basePath = "/v1/user/self";
   const fullPath = req.originalUrl; 
 

@@ -1,6 +1,8 @@
+require('dotenv').config();
+
 module.exports = {
-  host: "127.0.0.1",
-  database: "ugr",
-  user: "root",
-  password: "asb!12345",
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
 };
