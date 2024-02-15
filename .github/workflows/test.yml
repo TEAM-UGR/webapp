@@ -37,8 +37,5 @@ jobs:
       - name: Use DB
         run: mysql -u root -proot -h 127.0.0.1 --port 3306 -e "USE ugr;"
 
-      - name: "check env"
-        run: echo ${{ secrets.DATABASE }}
-
       - name: Test
         run: npm test
