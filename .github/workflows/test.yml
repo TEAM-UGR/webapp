@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
 
-env: 
+env:
   HOST: ${{  secrets.HOST  }}
   USER: ${{  secrets.USER  }}
   PASSWORD: ${{  secrets.PASSWORD  }}
@@ -13,8 +13,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-
 
     steps:
       - name: Checkout to webapp
@@ -30,12 +28,15 @@ jobs:
       #     sudo apt-get update
       #     sudo apt-get install -y mysql-client
 
-      - name: start mysql server
-        run: sudo systemctl start mysql.service
-
       - name: Install dependencies
         run: npm ci
-      
+
+      - name: start mysql server
+        run: sudo systemctl start mysql
+
+      - name: Use DB
+        run: mysql -u ${{ secrets.USER }} -p${{ secrets.PASSWORD }} -h 127.0.0.1 --port 3306 -e "USE ugr;"
+
       - name: "check env"
         run: echo ${{ secrets.DATABASE }}
 
