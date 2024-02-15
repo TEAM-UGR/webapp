@@ -1,11 +1,11 @@
 const express = require("express");
-const createDatabase = require("./config/createDB"); 
+const createDatabase = require("./config/createDB");
 const initializeSequelize = require("./config/sequelizeConfig");
 const User = require("./models/User");
 const dbConfig = require("./config/dbConfig");
-const  Sequelize  = require('sequelize');
+const sequelize1 = require("sequelize");
 const databaseName = process.env.DATABASE;
-const bootstrapDatabase = require("./config/sequelizeConfig.js")
+const bootstrapDatabase = require("./config/sequelizeConfig.js");
 
 const sequelize = initializeSequelize(databaseName);
 
@@ -15,18 +15,21 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-  
   const allowedBasePaths = ["/healthz", "/v1/user", "/v1/user/self"];
-  const fullPath = req.originalUrl; 
+  const fullPath = req.originalUrl;
 
-
-  const isAllowedPath = allowedBasePaths.some(basePath => 
-    fullPath.startsWith(basePath) && (fullPath.length === basePath.length || fullPath[basePath.length] === '?' || fullPath[basePath.length] === '/')
+  const isAllowedPath = allowedBasePaths.some(
+    (basePath) =>
+      fullPath.startsWith(basePath) &&
+      (fullPath.length === basePath.length ||
+        fullPath[basePath.length] === "?" ||
+        fullPath[basePath.length] === "/")
   );
 
-
   if (!isAllowedPath) {
-    return res.status(400).json({ error: "Bad Request: Invalid path or query parameters" });
+    return res
+      .status(400)
+      .json({ error: "Bad Request: Invalid path or query parameters" });
   }
 
   next();
@@ -77,20 +80,18 @@ app.use("/healthz", rejectAdditionalPathSegments(["/healthz"]));
 
 app.use(userAuthRouter);
 
-app.listen(3000,() => {
+app.listen(3000, () => {
   console.log("Application is running on http://localhost:3000");
-  
 
-    createDatabaseAndSyncModels()
+  createDatabaseAndSyncModels();
 });
 
 async function createDatabaseAndSyncModels() {
   try {
     await createDatabase();
-    await Sequelize.sync();
+    await sequelize1.sync();
     // await bootstrapDatabase()
     console.log("Database and models are ready.");
-    
   } catch (error) {
     console.error("Failed to set up database and models:", error);
   }
