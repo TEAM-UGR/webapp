@@ -35,7 +35,7 @@ jobs:
         run: sudo systemctl start mysql
 
       - name: Use DB
-        run: mysql -u ${{ secrets.USER }} -p${{ secrets.PASSWORD }} -h 127.0.0.1 --port 3306 -e "USE ugr;"
+        run: mysql -u root -proot -h 127.0.0.1 --port 3306 -e "USE ugr;"
 
       - name: "check env"
         run: echo ${{ secrets.DATABASE }}
