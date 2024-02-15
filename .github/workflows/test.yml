@@ -34,8 +34,5 @@ jobs:
       - name: start mysql server
         run: sudo systemctl start mysql
 
-      - name: Use DB
-        run: mysql -u root -proot -h 127.0.0.1 --port 3306 -e "USE ugr;"
-
       - name: Test
         run: npm test
