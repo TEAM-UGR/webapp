@@ -4,15 +4,17 @@ on:
   pull_request:
     branches: [main]
 
+env: 
+  HOST: ${{  secrets.HOST  }}
+  USER: ${{  secrets.USER  }}
+  PASSWORD: ${{  secrets.PASSWORD  }}
+  DATABASE: ${{  secrets.DATABASE  }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    env: 
-      HOST: ${{  secrets.HOST  }}
-      USER: ${{  secrets.USER  }}
-      PASSWORD: ${{  secrets.PASSWORD  }}
-      DATABASE: ${{  secrets.DATABASE  }}
+
 
     steps:
       - name: Checkout to webapp

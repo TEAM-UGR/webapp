@@ -8,15 +8,15 @@ require("dotenv").config();
 const createDatabase = async () => {
   try {
     const connection = await mysql.createConnection({
-      host: dbConfig.host,
-      user: dbConfig.user,
-      password: dbConfig.password,
+      host: process.env.HOST,
+      user: process.env.USER,
+      password: process.env.PASSWORD,
     });
 
     await connection.query(
-      `CREATE DATABASE IF NOT EXISTS \`${dbConfig.database}\`;`
+      `CREATE DATABASE IF NOT EXISTS \`${process.env.DATABASE}\`;`
     );
-    console.log(`Database ${dbConfig.database} is ready.`);
+    console.log(`Database ${process.env.DATABASE} is ready.`);
     await connection.end();
   } catch (error) {
     console.error("Unable to create database");

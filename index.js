@@ -4,7 +4,7 @@ const initializeSequelize = require("./config/sequelizeConfig");
 const User = require("./models/User");
 const dbConfig = require("./config/dbConfig");
 
-const databaseName = dbConfig.DATABASE;
+const databaseName = process.env.DATABASE;
 
 const sequelize = initializeSequelize(databaseName);
 
