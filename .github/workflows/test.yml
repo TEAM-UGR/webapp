@@ -2,26 +2,37 @@ name: Node.js CI
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
+
+    env: 
+      HOST: ${{  secrets.HOST  }}
+      USER: ${{  secrets.USER  }}
+      PASSWORD: ${{  secrets.PASSWORD  }}
+      DATABASE: ${{  secrets.DATABASE  }}
 
     steps:
-    - name: Checkout to webapp 
-      uses: actions/checkout@v3
+      - name: Checkout to webapp
+        uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20.x'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
 
-    - name: start mysql server
-      run: sudo systemctl start mysql.service
+      - name: Install MySQL Client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
 
-    - name: Install dependencies
-      run: npm ci
+      - name: start mysql server
+        run: sudo systemctl start mysql.service
 
-    - name: Test
-      run: npm test
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
