@@ -4,7 +4,7 @@ const initializeSequelize = require("./config/sequelizeConfig");
 const User = require("./models/User");
 const dbConfig = require("./config/dbConfig");
 
-const databaseName = dbConfig.database;
+const databaseName = dbConfig.DATABASE;
 
 const sequelize = initializeSequelize(databaseName);
 
@@ -78,6 +78,7 @@ app.use(userAuthRouter);
 
 app.listen(3000, () => {
   console.log("Application is running on http://localhost:3000");
+  
 
   createDatabaseAndSyncModels();
 });
