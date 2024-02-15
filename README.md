@@ -94,7 +94,7 @@ Mandatory Request body along with BasicAuth Username and Password in format:
 {
   "first_name": "John",
   "last_name": "Doe",
-  "password": "skdjfhskdfjhg"
+  "password": "<enter your password>"
 }
 ```
 
@@ -121,6 +121,8 @@ Hit the endpoint http://localhost:8080/healthz using Postman:
 4.  If the database server is in stopped state AND it is a GET request then, this will return 503 Service Unavailable.
 
 ![Alt text](images/image-6.png)
+
+### IntegrationTest
 
 ## Integration Tests for /v1/user Endpoint
 
