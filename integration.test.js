@@ -12,7 +12,7 @@ describe("Integration Test 1 for creating a user and validating using GET", () =
       first_name: "Rohan",
       last_name: "Biradar",
       password: "Asb@1999",
-      username: "ababab@mail.com",
+      username: "aaaaaa@mail.com",
     };
     const responsePOST = await request(app).post("/v1/user").send(req);
     expect(responsePOST.statusCode).toEqual(201);
@@ -29,7 +29,7 @@ describe("Integration Test 1 for creating a user and validating using GET", () =
 
 describe("Integration Test 2 for Updating a user and Validating using GET", () => {
   test("PUT /v1/user/self - success - Update User", async () => {
-    const username = "ababab@mail.com";
+    const username = "aaaaaa@mail.com";
     const password = "Asb@1999";
     let token2 = `${username}:${password}`;
     let base64token2 = btoa(token2);
