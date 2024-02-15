@@ -16,7 +16,7 @@ const createDatabase = async () => {
       `CREATE DATABASE IF NOT EXISTS \`${process.env.DATABASE}\`;`
     );
     console.log(`Database ${process.env.DATABASE} is ready.`);
-    await connection.end();
+    // await connection.end();
   } catch (error) {
     console.error("Unable to create database");
     throw error;
