@@ -3,7 +3,7 @@ const createDatabase = require("./config/createDB");
 const initializeSequelize = require("./config/sequelizeConfig");
 const User = require("./models/User");
 const dbConfig = require("./config/dbConfig");
-
+const { Sequelize } = require('sequelize');
 const databaseName = process.env.DATABASE;
 const bootstrapDatabase = require("./config/sequelizeConfig.js")
 
@@ -87,6 +87,7 @@ app.listen(3000,() => {
 async function createDatabaseAndSyncModels() {
   try {
     await createDatabase();
+    await Sequelize.sync({alter: true});
     await bootstrapDatabase()
     console.log("Database and models are ready.");
     
