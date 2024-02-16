@@ -5,28 +5,14 @@ on:
     branches: [main]
 
 env:
-  HOST: ${{ secrets.HOST }}
-  USER: ${{ secrets.USER }}
-  PASSWORD: ${{ secrets.PASSWORD }}
-  DATABASE: ${{ secrets.DATABASE }}
+  HOST: ${{  secrets.HOST  }}
+  USER: ${{  secrets.USER  }}
+  PASSWORD: ${{  secrets.PASSWORD  }}
+  DATABASE: ${{  secrets.DATABASE  }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.DATABASE }}
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
 
     steps:
       - name: Checkout to webapp
@@ -37,19 +23,16 @@ jobs:
         with:
           node-version: "20.x"
 
+      # - name: Install MySQL Client
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y mysql-client
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Wait for MySQL
-        run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"3306" --silent; do
-            sleep 1
-          done
-
-      - name: Prepare database
-        run: |
-          mysql -h 127.0.0.1 -P 3306 -u root -p${{ secrets.PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${{ secrets.DATABASE }};"
-          # Add any additional setup commands here (e.g., running migrations)
+      - name: start mysql server
+        run: sudo systemctl start mysql
 
       - name: Test
         run: npm test
