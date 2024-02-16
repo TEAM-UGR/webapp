@@ -10,7 +10,7 @@
     "supertest": "^6.3.4"
   },
   "scripts": {
-    "test": "jest --forceExit",
+    "test": "jest --detectOpenHandles --forceExit",
     "start": "nodemon index.js"
   }
 }
