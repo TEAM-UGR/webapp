@@ -5,7 +5,6 @@ const User = require("./models/User");
 const dbConfig = require("./config/dbConfig");
 
 const databaseName = process.env.DATABASE;
-const bootstrapDatabase = require("./config/sequelizeConfig.js");
 
 const sequelize = initializeSequelize(databaseName);
 
@@ -97,4 +96,5 @@ async function createDatabaseAndSyncModels() {
     process.exit(1);
   }
 }
+
 module.exports = app;

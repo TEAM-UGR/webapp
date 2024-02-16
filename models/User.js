@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 require('dotenv').config(); 
 const dbConfig = require("../config/dbConfig")
+require('dotenv').config();
 const initializeSequelize = require("../config/sequelizeConfig");
 const databaseName = process.env.DATABASE;
 
@@ -37,19 +38,11 @@ const User = sequelize.define('User',{
         createdAt: "account_created",
         updatedAt: "account_updated"
     });
-    const syncModels = async()=>{
-        try{
-            await sequelize.sync({ force: false })
-       
-    
-        } catch(err){
-            console.log("Error while syncing")
-            
-        }
 
-    }
-    syncModels();
-    
+    sequelize.sync({ force: false })
+    .then(() => console.log("Models synchronized successfully."))
+    .catch(err => console.error("Failed to synchronize models"));
+
 
 module.exports = User;
 

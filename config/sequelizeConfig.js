@@ -1,6 +1,5 @@
     
 const { Sequelize } = require('sequelize');
-const dbConfig = require('./dbConfig');
 require('dotenv').config();
 
 const initializeSequelize = (databaseName) => {
@@ -9,17 +8,5 @@ const initializeSequelize = (databaseName) => {
     dialect: 'mysql',
   });
 };
-
-const bootstrapDatabase = async () => {
-  try {
-    await Sequelize.sync({alter: true});
-    
-  } catch (error) {
-    console.error('Error bootstrapping database:', error);
-    process.exit(1);
-  }
-};
-
-module.exports = bootstrapDatabase;
 
 module.exports = initializeSequelize;
