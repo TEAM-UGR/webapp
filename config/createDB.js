@@ -24,8 +24,6 @@ const createDatabase = async () => {
   } catch (error) {
     console.error("Unable to create database");
     throw error;
-    console.error("Unable to create database");
-    throw error;
   }
 };
 
