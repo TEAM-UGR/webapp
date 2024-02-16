@@ -1,7 +1,7 @@
 const express = require("express");
 const createDatabase = require("./config/createDB");
 const initializeSequelize = require("./config/sequelizeConfig");
-const User = require("./models/User");
+
 const dbConfig = require("./config/dbConfig");
 
 const databaseName = process.env.DATABASE;

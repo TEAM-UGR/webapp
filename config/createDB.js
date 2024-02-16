@@ -7,9 +7,7 @@ const createDatabase = async () => {
       host: process.env.HOST,
       user: process.env.USER,
       password: process.env.PASSWORD,
-      host: process.env.HOST,
-      user: process.env.USER,
-      password: process.env.PASSWORD,
+      
     });
 
     await connection.query(

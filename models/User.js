@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 require('dotenv').config(); 
-const dbConfig = require("../config/dbConfig")
+
 require('dotenv').config();
 const initializeSequelize = require("../config/sequelizeConfig");
 const databaseName = process.env.DATABASE;
