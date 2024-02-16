@@ -48,7 +48,8 @@ const User = sequelize.define('User',{
         }
 
     }
-    syncModels()
+    syncModels();
+    module.exports = syncModels;
 
 module.exports = User;
 

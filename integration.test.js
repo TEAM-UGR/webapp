@@ -1,9 +1,11 @@
 const request = require("supertest");
 const app = require("./index.js");
 const createDatabase = require("./config/createDB.js");
+const syncModels = require("./models/User.js")
 
 beforeAll(async () => {
   await createDatabase();
+  await syncModels();
 });
 
 describe("Integration Test 1 for creating a user and validating using GET", () => {
