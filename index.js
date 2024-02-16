@@ -3,8 +3,6 @@ require("dotenv").config();
 const createDatabase = require("./config/createDB.js");
 const initializeSequelize = require("./config/sequelizeConfig.js");
 
-
-
 const databaseName = process.env.DATABASE;
 
 const sequelize = initializeSequelize(databaseName);
@@ -80,7 +78,7 @@ app.use("/healthz", rejectAdditionalPathSegments(["/healthz"]));
 
 app.use(userAuthRouter);
 
-app.listen(3000, () => {
+const server = app.listen(3000, () => {
   console.log("Application is running on http://localhost:3000");
 
   createDatabaseAndSyncModels();
@@ -99,3 +97,5 @@ async function createDatabaseAndSyncModels() {
 }
 
 module.exports = app;
+
+module.exports = server;

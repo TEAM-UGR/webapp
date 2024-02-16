@@ -4,6 +4,7 @@ require('dotenv').config();
 const databaseName = process.env.DATABASE;
 const initializeSequelize = require("./config/sequelizeConfig.js");
 const sequelize = initializeSequelize(databaseName);
+const server = require("./index.js")
 
 const createDatabase = require("./config/createDB.js");
 
@@ -64,5 +65,11 @@ describe("Integration Test 2 for Updating a user and Validating using GET", () =
       .send()
       .set("Authorization", `Basic ${base64token3}`);
     expect(responseUpdateGET.statusCode).toEqual(200);
+  });
+});
+
+afterAll((done) => {
+  server.close(() => {
+    done();
   });
 });
