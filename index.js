@@ -1,8 +1,7 @@
 const express = require("express");
-require('dotenv').config();
-const createDatabase = require("./config/createDB");
-const initializeSequelize = require("./config/sequelizeConfig");
-
+require("dotenv").config();
+const createDatabase = require("./config/createDB.js");
+const initializeSequelize = require("./config/sequelizeConfig.js");
 
 const dbConfig = require("./config/dbConfig");
 
@@ -91,7 +90,7 @@ async function createDatabaseAndSyncModels() {
   try {
     await createDatabase();
     await sequelize.sync();
-    
+
     console.log("Database and models are ready.");
   } catch (error) {
     console.error("Failed to set up database and models:", error);

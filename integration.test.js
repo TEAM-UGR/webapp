@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("./index.js");
 require('dotenv').config();
 const databaseName = process.env.DATABASE;
-const initializeSequelize = require("./config/sequelizeConfig");
+const initializeSequelize = require("./config/sequelizeConfig.js");
 const sequelize = initializeSequelize(databaseName);
 
 const createDatabase = require("./config/createDB.js");
