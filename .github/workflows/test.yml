@@ -23,10 +23,11 @@ jobs:
         with:
           node-version: "20.x"
 
-
-
       - name: Install dependencies
         run: npm install
+
+      - name: start mysql server
+        run: sudo systemctl start mysql
 
       - name: Test
         run: npm test
