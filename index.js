@@ -3,7 +3,7 @@ const createDatabase = require("./config/createDB");
 const initializeSequelize = require("./config/sequelizeConfig");
 const User = require("./models/User");
 const dbConfig = require("./config/dbConfig");
-const sequelize1 = require("sequelize");
+
 const databaseName = process.env.DATABASE;
 const bootstrapDatabase = require("./config/sequelizeConfig.js");
 
@@ -90,7 +90,7 @@ async function createDatabaseAndSyncModels() {
   try {
     await createDatabase();
     await sequelize.sync();
-    // await bootstrapDatabase()
+    
     console.log("Database and models are ready.");
   } catch (error) {
     console.error("Failed to set up database and models:", error);
