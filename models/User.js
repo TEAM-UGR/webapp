@@ -39,9 +39,18 @@ const User = sequelize.define('User',{
         updatedAt: "account_updated"
     });
 
-    sequelize.sync({ force: false })
-    .then(() => console.log("Models synchronized successfully."))
-    .catch(err => console.error("Failed to synchronize models"));
+    const syncModels = async()=>{
+        try{
+            await sequelize.sync({ force: false })
+       
+    
+        } catch(err){
+            console.log("Error while syncing")
+            
+        }
+
+    }
+    syncModels();
 
 
 module.exports = User;
