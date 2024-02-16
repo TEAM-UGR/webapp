@@ -1,20 +1,16 @@
 const request = require("supertest");
 const app = require("./index.js");
-require('dotenv').config();
+require("dotenv").config();
 const databaseName = process.env.DATABASE;
 const initializeSequelize = require("./config/sequelizeConfig.js");
 const sequelize = initializeSequelize(databaseName);
-const server = require("./index.js")
+const server = require("./index.js");
 
 const createDatabase = require("./config/createDB.js");
 
-
-beforeAll(async() => {
-  // await createDatabase();
-  await sequelize.sync({ force: true });
-  
-  
-  
+beforeAll(async () => {
+  await createDatabase();
+  // await sequelize.sync();
 });
 
 describe("Integration Test 1 for creating a user and validating using GET", () => {
