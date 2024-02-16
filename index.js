@@ -1,18 +1,25 @@
 const express = require("express");
-const createDatabase = require("./config/createDB");
-const initializeSequelize = require("./config/sequelizeConfig");
-const User = require("./models/User");
-const dbConfig = require("./config/dbConfig");
+// const createDatabase = require("./config/createDB");
+// const initializeSequelize = require("./config/sequelizeConfig");
+// const User = require("./models/User");
+// const dbConfig = require("./config/dbConfig");
 
-const databaseName = process.env.DATABASE;
-const bootstrapDatabase = require("./config/sequelizeConfig.js");
+// const databaseName = process.env.DATABASE;
+// const bootstrapDatabase = require("./config/sequelizeConfig.js");
 
-const sequelize = initializeSequelize(databaseName);
+// const sequelize = initializeSequelize(databaseName);
 
 const userAuthRouter = require("./routes/user.auth.js");
+const  startupDB  = require("./config/startupDatabase.js");
 
 const app = express();
 app.use(express.json());
+
+const startUp = async () => {
+  await startupDB();
+} 
+
+startUp(); 
 
 app.use((req, res, next) => {
   const allowedBasePaths = ["/healthz", "/v1/user", "/v1/user/self"];
@@ -83,7 +90,7 @@ app.use(userAuthRouter);
 app.listen(3000, () => {
   console.log("Application is running on http://localhost:3000");
 
-  createDatabaseAndSyncModels();
+  // createDatabaseAndSyncModels();
 });
 
 async function createDatabaseAndSyncModels() {
