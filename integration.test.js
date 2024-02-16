@@ -10,7 +10,7 @@ const createDatabase = require("./config/createDB.js");
 
 beforeAll(async () => {
   await createDatabase();
-  // await sequelize.sync();
+  await sequelize.sync();
 });
 
 describe("Integration Test 1 for creating a user and validating using GET", () => {

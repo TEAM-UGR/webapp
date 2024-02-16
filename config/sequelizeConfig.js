@@ -9,15 +9,4 @@ const initializeSequelize = (databaseName) => {
   });
 };
 
-const bootstrapDatabase = async () => {
-  try {
-    await Sequelize.sync({ alter: true });
-  } catch (error) {
-    console.error("Error bootstrapping database:", error);
-    process.exit(1);
-  }
-};
-
-module.exports = bootstrapDatabase;
-
 module.exports = initializeSequelize;

@@ -42,9 +42,8 @@ const User = sequelize.define('User',{
         try{
             await sequelize.sync({ force: false })
        
-    
         } catch(err){
-            console.log("Error while syncing")
+            console.log("Error while syncing",err)
             
         }
 
