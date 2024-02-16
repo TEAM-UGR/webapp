@@ -3,7 +3,7 @@ require("dotenv").config();
 const createDatabase = require("./config/createDB.js");
 const initializeSequelize = require("./config/sequelizeConfig.js");
 
-const dbConfig = require("./config/dbConfig");
+
 
 const databaseName = process.env.DATABASE;
 
