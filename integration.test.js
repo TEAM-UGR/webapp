@@ -9,6 +9,7 @@ const server = require("./index.js");
 const createDatabase = require("./config/createDB.js");
 
 beforeAll(async () => {
+  console.log(databaseName)
   await createDatabase();
   await sequelize.sync();
 });
