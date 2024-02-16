@@ -49,7 +49,7 @@ const User = sequelize.define('User',{
 
     }
     syncModels();
-    module.exports = syncModels;
+    
 
 module.exports = User;
 
