@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("./index.js");
-require('dotenv').config();
 const databaseName = process.env.DATABASE;
 const initializeSequelize = require("./config/sequelizeConfig");
 const sequelize = initializeSequelize(databaseName);
