@@ -33,7 +33,7 @@ jobs:
         run: npm test
 
       - name: Generate ZIP file
-        run: zip -r webapp-a2 
+        run: zip -r webapp-a2 .
 
       - name: Install Packer   # Install Packer
         run: packer init centos-nodejs-using-packer.pkr.hcl
