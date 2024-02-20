@@ -47,7 +47,7 @@ build {
     script = "mysql-node.sh"
   }
   provisioner "file" {
-    source = "/webapp-main.zip"
+    source = "webapp-a2.zip"
     destination = "/tmp/webapp-a2.zip"
   }
   provisioner "shell" {
