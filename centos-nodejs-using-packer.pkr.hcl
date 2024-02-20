@@ -42,10 +42,7 @@ build {
         "source.googlecompute.centos"
     ]
 
-    provisioner "file" {
-    source = "demo.log"
-    destination = "/tmp/demo.log"
-  }
+    
   provisioner "shell" {
     script = "mysql-node.sh"
   }
