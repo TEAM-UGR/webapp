@@ -31,3 +31,9 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: Packer format check
+        run: packer fmt centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer Validate
+        run: packer validate centos-nodejs-using-packer.pkr.hcl
