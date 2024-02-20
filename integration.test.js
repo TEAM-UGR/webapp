@@ -34,7 +34,7 @@ describe("Integration Test 2 for Updating a user and Validating using GET", () =
   test("PUT /v1/user/self - success - Update User", async () => {
     const username = "aaa@mail.com";
     const password = "Asb@1999";
-    let token2 = `${username}:${password}`;
+    let token2 = `${username}: ${password}`;
     let base64token2 = btoa(token2);
 
     const reqUpdate = {
