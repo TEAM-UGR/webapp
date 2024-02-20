@@ -32,7 +32,7 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Install Packer
+      - name: Install Packer   # Install Packer
         run: packer init centos-nodejs-using-packer.pkr.hcl
 
       - name: Packer format check
