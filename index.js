@@ -1,13 +1,5 @@
 const express = require("express");
-// const createDatabase = require("./config/createDB");
-// const initializeSequelize = require("./config/sequelizeConfig");
-// const User = require("./models/User");
-// const dbConfig = require("./config/dbConfig");
 
-// const databaseName = process.env.DATABASE;
-// const bootstrapDatabase = require("./config/sequelizeConfig.js");
-
-// const sequelize = initializeSequelize(databaseName);
 
 const userAuthRouter = require("./routes/user.auth.js");
 const  startupDB  = require("./config/startupDatabase.js");
