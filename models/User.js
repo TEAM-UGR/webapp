@@ -1,10 +1,7 @@
 const { DataTypes } = require("sequelize");
 require('dotenv').config(); 
-const dbConfig = require("../config/dbConfig")
-const initializeSequelize = require("../config/sequelizeConfig");
-const databaseName = process.env.DATABASE;
 
-const sequelize = initializeSequelize(databaseName);
+const {sequelize} = require("../config/db")
 
 const User = sequelize.define('User',{
     id:{
