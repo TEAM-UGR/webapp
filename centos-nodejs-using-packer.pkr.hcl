@@ -48,7 +48,7 @@ build {
   }
   provisioner "file" {
     source = "/webapp-main.zip"
-    destination = "/tmp/webapp-main.zip"
+    destination = "/tmp/webapp-a2.zip"
   }
   provisioner "shell" {
     script = "install-dependencies.sh"
