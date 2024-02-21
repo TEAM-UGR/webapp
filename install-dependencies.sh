@@ -1,7 +1,13 @@
 #!/bin/bash
 
-sudo cp /tmp/webapp-main.zip /home
+sudo cp /tmp/webapp-a2-main.zip /home
 
-cd /home
+sudo unzip /home/webapp-a2-main.zip -d /home/webapp-a2-main
 
-sudo unzip /home/webapp-main.zip
+sudo cp /tmp/start-web-app.service /etc/systemd/system
+
+sudo chown -R csye6225:csye6225 /home/webapp-a2-main
+
+sudo systemctl daemon-reload
+
+sudo systemctl enable start-web-app.service

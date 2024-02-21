@@ -47,8 +47,15 @@ build {
     script = "mysql-node.sh"
   }
   provisioner "file" {
-    source = "webapp-a2.zip"
-    destination = "/tmp/webapp-a2.zip"
+    source = "webapp-a2-main.zip"
+    destination = "/tmp/webapp-a2-main.zip"
+  }
+  provisioner "file" {
+    source = "start-web-app.service"
+    destination = "/tmp/start-web-app.service"
+  }
+  provisioner "shell" {
+    script = "create-user.sh"
   }
   provisioner "shell" {
     script = "install-dependencies.sh"

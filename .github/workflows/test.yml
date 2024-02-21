@@ -24,7 +24,7 @@ jobs:
           node-version: "20.x"
 
       - name: Generate ZIP file
-        run: zip -r webapp-a2 .
+        run: zip -r webapp-a2-main.zip .
 
         
       - name: Install dependencies
