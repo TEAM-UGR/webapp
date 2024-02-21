@@ -49,7 +49,6 @@ build {
   provisioner "file" {
     source = "webapp-a2-main.zip"
     destination = "/tmp/webapp-a2-main.zip"
-    generated = true
   }
   provisioner "file" {
     source = "start-web-app.service"
