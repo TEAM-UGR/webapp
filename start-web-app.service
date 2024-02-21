@@ -4,15 +4,15 @@ After=network.target
 
 [Service]  
 User=csye6225
-WorkingDirectory=/home/webapp-a2-main
+WorkingDirectory=/home/webapp-main
 Environment="PORT=3000"
 Environment="HOST=127.0.0.1"
 Environment="DATABASE=ugr"
-Environment="USER=root"
+Environment="DB_USER=root"
 Environment="PASSWORD=asb!12345"
 Type=Simple
 ExecStartPre=/usr/bin/npm install
-ExecStart=/usr/bin/node /home/webapp-a2-main/index.js
+ExecStart=/usr/bin/node /home/webapp-main/index.js
 Restart=on-failure
 
 [Install]

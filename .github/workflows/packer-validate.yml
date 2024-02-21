@@ -1,0 +1,31 @@
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  HOST: ${{  secrets.HOST  }}
+  USER: ${{  secrets.DB_USER  }}
+  PASSWORD: ${{  secrets.PASSWORD  }}
+  DATABASE: ${{  secrets.DATABASE  }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to webapp
+        uses: actions/checkout@v3
+
+      - name: Install Packer   # Install Packer
+        run: packer init centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer format check
+        run: packer fmt centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer Validate
+        run: packer validate centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer build
+        run: packer build centos-nodejs-using-packer.pkr.hcl

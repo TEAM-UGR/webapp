@@ -1,0 +1,44 @@
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  HOST: ${{  secrets.HOST  }}
+  USER: ${{  secrets.DB_USER  }}
+  PASSWORD: ${{  secrets.PASSWORD  }}
+  DATABASE: ${{  secrets.DATABASE  }}
+
+jobs:
+  packer-validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to webapp
+        uses: actions/checkout@v3
+
+      - id: auth
+        uses: "goggle-github-actions/auth@v2"
+        with:
+            credentials_json: "${{ secrets.GCP_SA_Key}}"
+
+      - name: Set up Cloud SDK
+        uses: "google-github-actions/setup-gcloud@v2"
+
+      - name: Create .env
+        run: |
+            touch .env
+            echo "HOST=${{ secrets.HOST}}" > .env
+            echo "DB_USER=${{ secrets.DB_USER}}" > .env
+            echo "PASSWORD=${{ secrets.PASSWORD}}" > .env
+            echo "DATABASE=${{ secrets.DATABASE}}" > .env
+
+      - name: Generate ZIP file
+        run: zip -r webapp-a2-main.zip .
+
+      - name: Install Packer   # Install Packer
+        run: packer init centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer Build
+        run: packer build centos-nodejs-using-packer.pkr.hcl
