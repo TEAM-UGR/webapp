@@ -35,8 +35,8 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: GCLOUD SA validation
-        uses: "google-github-actions/auth@v2"
+      - name
+        uses: "goggle-github-actions/auth@v2"
         with:
             credentials_json: "${{ secrets.GCP_SA_Key}}"
 
