@@ -35,3 +35,15 @@ jobs:
 
       - name: Test
         run: npm test
+
+      - name: Install Packer   # Install Packer
+        run: packer init centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer format check
+        run: packer fmt centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer Validate
+        run: packer validate centos-nodejs-using-packer.pkr.hcl
+
+      - name: Packer build
+        run: packer build centos-nodejs-using-packer.pkr.hcl
