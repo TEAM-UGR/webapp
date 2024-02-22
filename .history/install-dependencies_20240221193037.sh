@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+
 sudo cp /tmp/webapp-a2-main.zip /home
 
 sudo unzip /home/webapp-a2-main.zip -d /home
