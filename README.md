@@ -133,3 +133,40 @@ This test verifies the creation of a new account by sending a POST request to th
 This test ensures the correct updating of an existing account by first sending a PUT request to update the account information through the /v1/user endpoint. It then utilizes a GET call to verify that the account was successfully updated in the database.
 
 ![Alt text](images/image-7.png)
+
+### Install Packer and add it to environment path variables
+
+https://developer.hashicorp.com/packer/install
+
+### Login to GCLOUD:
+
+Run following command and login to Gcloud account:
+```
+gcloud auth application-default login
+```
+
+## Packer Instructions:
+
+Move to webapp project
+```
+cd webapp
+```
+
+Run following to initialize packer for pkr.hcl file
+```
+packer init .\centos-nodejs-using-packer.pkr.hcl
+```
+
+Run following command to validate the packer
+```
+packer validate .\centos-nodejs-using-packer.pkr.hcl
+```
+
+Run following command to start the build. In out case the build will create install mysql,nodejs, unzip and other dependencies (express,bcrypt,express,sequelize,nodemon,etc) required for our project on the VM and then create an image of the vm in the gcloud account
+```
+packer build .\centos-nodejs-using-packer.pkr.hcl
+```
+
+![Alt text](images/image-8.png)
+
+![Alt text](images/image-9.png)
