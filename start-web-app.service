@@ -9,7 +9,7 @@ Environment="PORT=3000"
 Environment="HOST=127.0.0.1"
 Environment="DATABASE=ugr"
 Environment="DB_USER=root"
-Environment="PASSWORD=asb!12345"
+Environment="PASSWORD=root"
 Type=Simple
 ExecStartPre=/usr/bin/npm install
 ExecStart=/usr/bin/node /home/webapp-main/index.js
