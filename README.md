@@ -166,7 +166,7 @@ Run following command to start the build. In out case the build will create inst
 ```
 packer build .\centos-nodejs-using-packer.pkr.hcl
 ```
-
+![Alt text](images/image-8.png)
 ![Alt text](images/image-8.png)
 
 ![Alt text](images/image-9.png)
