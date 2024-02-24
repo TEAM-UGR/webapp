@@ -107,7 +107,7 @@ Hit the endpoint http://localhost:8080/healthz using Postman:
 2. If the request method is NOT GET then the response will be 405 Method Not Allowed irrespective of the request method AND status of the database server.
 
 ![Alt text](images/image-1.png)
-
+![Alt text](images/image-1.png)
 ![Alt text](images/image-2.png)
 
 ![Alt text](images/image-3.png)
