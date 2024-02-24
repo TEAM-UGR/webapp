@@ -30,7 +30,7 @@ variable "gcp_ssh_username"{
 }
 
 source "googlecompute" "centos"{
-    project_id = var.gcp_project_id
+    project_id =   var.gcp_project_id
     source_image_family  = var.gcp_source_image_family
     source_image_project_id  = ["centos-cloud"]
     zone  = var.gcp_zone
