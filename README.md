@@ -82,6 +82,7 @@ Mandatory Request body along with BasicAuth Username and Password in format:
 
 Or 400 Bad Request for any request payload or wrong endpoints.
 
+
 # Update User Information
 
 PUT `/v1/user/self`
