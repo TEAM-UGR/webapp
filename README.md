@@ -9,7 +9,7 @@ Before you begin, ensure you have met the following requirements:
 - Node.js and npm installed
 - MySQL installed and running
 
-## Build and Deploy Instructions
+### Build and Deploy Instructions
 
 To build and deploy this application locally, follow these steps:
 
