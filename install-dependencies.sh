@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 sudo cp /tmp/webapp-a2-main.zip /home
-
+echo "========================starting unzip============================================"
 sudo unzip /home/webapp-a2-main.zip -d /home
-
+echo "========================finishing unzip============================================"
 sudo cp /tmp/start-web-app.service /etc/systemd/system
 
 sudo adduser csye6225 --shell /usr/sbin/nologin
