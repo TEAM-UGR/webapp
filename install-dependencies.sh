@@ -8,7 +8,7 @@ sudo cp /tmp/start-web-app.service /etc/systemd/system
 
 sudo adduser csye6225 --shell /usr/sbin/nologin
 
-DIRECTORY="/home/webapp-a2"
+DIRECTORY="/home"
 
 if [ -d "$DIRECTORY" ]; then
     echo "Listing contents of $DIRECTORY:"
