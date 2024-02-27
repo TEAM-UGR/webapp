@@ -56,9 +56,6 @@ build {
     destination = "/tmp/start-web-app.service"
   }
   provisioner "shell" {
-    script = "create-user.sh"
-  }
-  provisioner "shell" {
     script = "install-dependencies.sh"
   }
 
