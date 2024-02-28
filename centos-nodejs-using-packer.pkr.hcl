@@ -55,7 +55,7 @@ build {
     source = "start-web-app.service"
     destination = "/tmp/start-web-app.service"
   }
-
+  
   provisioner "shell" {
     script = "install-dependencies.sh"
   }
