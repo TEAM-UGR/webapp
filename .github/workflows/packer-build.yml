@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: "20.x"
 
+      - name: Create .env
+        run: touch .env
+
       - name: Generate ZIP file
         run: zip -r webapp-a2-main.zip .
  
@@ -42,14 +45,6 @@ jobs:
 
       - name: Set up Cloud SDK
         uses: "google-github-actions/setup-gcloud@v2"
-
-      - name: Create .env
-        run: |
-            touch .env
-            echo "HOST=${{ secrets.HOST}}" > .env
-            echo "DB_USER=${{ secrets.DB_USER}}" > .env
-            echo "PASSWORD=${{ secrets.PASSWORD}}" > .env
-            echo "DATABASE=${{ secrets.DATABASE}}" > .env
 
       - name: Install Packer   # Install Packer
         run: packer init centos-nodejs-using-packer.pkr.hcl
