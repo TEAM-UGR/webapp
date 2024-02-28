@@ -1,5 +1,6 @@
 [Unit]
 Description=Starting web-app 
+ConditionPathExists = /home/webapp-main
 After=network.target
 
 [Service]  
