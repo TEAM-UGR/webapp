@@ -5,7 +5,7 @@ After=network.target
 [Service]  
 User=csye6225
 WorkingDirectory=/home/webapp-main
-Type=Simple
+Type=simple
 ExecStartPre=/usr/bin/npm install
 ExecStart=/usr/bin/node /home/webapp-main/index.js
 Restart=on-failure
