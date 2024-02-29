@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const { sequelize } = require("../config/db");
 
-const User = sequelize.define(
+const {User} = sequelize.define(
   "User",
   {
     id: {
