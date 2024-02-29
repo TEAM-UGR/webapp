@@ -1,7 +1,7 @@
-const mysql =require("mysql2/promise");
+const mysql = require("mysql2/promise");
 const { connectDB, sequelize } = require("./db.js");
-require('dotenv').config(); 
-
+const { syncModels } = require("../models/User.js");
+require("dotenv").config();
 
 const startupDB = async () => {
   try {
@@ -9,9 +9,12 @@ const startupDB = async () => {
       host: process.env.HOST,
       user: process.env.DB_USER,
       password: process.env.PASSWORD,
+      connectTimeout: 20000,
     });
 
-    await connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DATABASE}`);
+    await connection.query(
+      `CREATE DATABASE IF NOT EXISTS ${process.env.DATABASE}`
+    );
     await createSchema();
   } catch (err) {
     console.log("Error while STarting up DB", err.message);
@@ -22,6 +25,7 @@ const startupDB = async () => {
 const createSchema = async () => {
   try {
     await connectDB();
+    await syncModels();
     await sequelize.sync({ alter: true });
     console.log("Synced Models successfully");
   } catch (err) {
