@@ -4,6 +4,8 @@ const express = require("express");
 const userAuthRouter = require("./routes/user.auth.js");
 const  startupDB  = require("./config/startupDatabase.js");
 
+const { sequelize } = require("./config/db.js")
+
 const app = express();
 app.use(express.json());
 
