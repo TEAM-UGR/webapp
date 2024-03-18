@@ -44,7 +44,7 @@ build {
 
     
   provisioner "shell" {
-    script = "mysql-node.sh"
+    script = "install-dependencies.sh"
   }
   provisioner "file" {
     source = "webapp-a2-main.zip"
@@ -56,7 +56,7 @@ build {
     destination = "/tmp/start-web-app.service"
   }
   provisioner "shell" {
-    script = "install-dependencies.sh"
+    script = "setup.sh"
   }
 
 }

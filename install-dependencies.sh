@@ -1,24 +1,36 @@
 #!/bin/bash
 set -e
-sudo cp /tmp/webapp-a2-main.zip /home
-echo "========================starting unzip============================================"
-sudo unzip /home/webapp-a2-main.zip -d /home/webapp-main
-echo "========================finishing unzip============================================"
-sudo cp /tmp/start-web-app.service /etc/systemd/system
+echo "======================= sudo yum update ================================"
+sudo yum update -y
 
-sudo adduser csye6225 --shell /usr/sbin/nologin
+# echo "======================= install mysql server ================================"
+# sudo yum install -y mysql-server
 
-DIRECTORY="/home"
+# echo "======================= enable mysqld ================================"
+# sudo systemctl enable --now mysqld
 
-if [ -d "$DIRECTORY" ]; then
-    echo "Listing contents of $DIRECTORY:"
-    ls -lart $DIRECTORY
-else
-    echo "Directory $DIRECTORY does not exist."
-fi
+# echo "======================= start mysqld ================================"
+# sudo systemctl start mysqld.service
 
-sudo chown -R csye6225:csye6225 /home/webapp-main
+echo "======================= download node js ================================"
+curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
 
-sudo systemctl daemon-reload
+echo "======================= install node js ================================"
+sudo yum install -y nodejs
 
-sudo systemctl enable start-web-app.service
+echo "======================= install unzip ================================"
+sudo yum install -y unzip
+
+# echo "======================= change password for sql ================================"
+# sudo mysql --connect-expired-password -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';"
+
+
+echo "======================= Download Ops Agent ================================"
+curl -sSO https://dl.google.com/cloudagents/add-google-cloud-ops-agent-repo.sh
+
+
+echo "======================= Install Ops Agent ================================"
+sudo bash add-google-cloud-ops-agent-repo.sh --also-install
+
+echo "======================= Check status of Ops Agent ================================"
+sudo systemctl status google-cloud-ops-agent
