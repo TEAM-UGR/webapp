@@ -58,5 +58,12 @@ build {
   provisioner "shell" {
     script = "setup.sh"
   }
+  provisioner "file"{
+    source = "./config/logging-config.yaml"
+    destination = "/tmp/config.yaml"
+  }
+  provisioner "shell"{
+    script = "logging-setup.sh"
+  }
 
 }
