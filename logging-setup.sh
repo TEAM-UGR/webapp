@@ -15,3 +15,6 @@ sudo chown -R csye6225:csye6225 /var/log/webapp-main/webapp.log
 
 echo "======================= Restart Ops agent ================================"
 sudo systemctl restart google-cloud-ops-agent
+
+echo "======================= Check status of  Ops agent ================================"
+sudo systemctl status google-cloud-ops-agent.service
