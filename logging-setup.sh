@@ -2,6 +2,7 @@
 
 set -e
 
+
 echo "======================= Create folder structure for log file ================================"
 sudo mkdir -p /var/log/webapp-main
 
