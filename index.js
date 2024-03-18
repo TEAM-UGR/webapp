@@ -99,7 +99,7 @@ async function createDatabaseAndSyncModels() {
   try {
     await createDatabase();
     await sequelize.sync();
-    logger.info("Databse and models/schema are ready")
+    logger.info("Database and models/schema are ready")
     console.log("Database and models are ready.");
   } catch (error) {
     logger.error("Failed to set up database and models/schema")
