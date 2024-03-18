@@ -10,6 +10,13 @@ logging:
       type: parse_json
       time_key: time
       time_format: "%Y-%m-%dT%H:%M:%S.%L%Z"
+    severity-mapper:
+      type: map_severity
+      field: level
+      map: 
+        info: INFO
+        error: ERROR
+        warning: WARNING
   service:
     pipelines:
       default_pipeline:
