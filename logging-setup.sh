@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -e
 
 echo "======================= Create folder structure for log file ================================"
