@@ -1,5 +1,7 @@
+const { json } = require("sequelize");
 const winston = require("winston");
-let appRoot = require("app-root-path");
+require('dotenv').config(); 
+
 const { format } = require("winston");
 const logger = winston.createLogger({
   level: "info",
@@ -7,17 +9,11 @@ const logger = winston.createLogger({
     format.timestamp({
       format: "YYYY-MM-DD HH:mm:ss",
     }),
-    format.printf((info) =>
-      JSON.stringify({
-        timestamp: info.timestamp,
-        level: info.level,
-        message: info.message,
-      })
-    )
+    format.json()
   ),
   transports: [
     new winston.transports.File({
-      filename: appRoot + "/var/log/webapp-main/webapp.log",
+      filename: process.env.ENV === "dev" ? "webapp.log" : "/var/log/webapp-main/webapp.log",
     }),
   ],
 });
