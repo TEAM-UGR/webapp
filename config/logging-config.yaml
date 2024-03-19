@@ -13,9 +13,9 @@ logging:
     mapping-severity:
       type: modify_fields
       fields: 
-        mapping-severity:
+        severity:
           copy_from: jsonPayload.level
-          map_level_values:
+          map_values:
             "info": "INFO"
             "error": "ERROR"
   service:
