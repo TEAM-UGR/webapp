@@ -50,6 +50,13 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       },
     });
 
+    if(!password){
+      logger.error("Password field empty!!!Please enter a password")
+      return res
+        .status(400).header("Cache-Control", "no-cache, no-store, must-revalidate")
+        .json({ error: "Password field empty!!!Please enter a password" });
+    }
+
     if (existingUser) {
       logger.error("User with this email already exists")
       return res
