@@ -50,5 +50,8 @@ jobs:
       - name: Install Packer   # Install Packer
         run: packer init centos-nodejs-using-packer.pkr.hcl
 
+      - name: Check env
+        run: echo ${{  secrets.ENV  }}
+
       - name: Packer Build
         run: packer build centos-nodejs-using-packer.pkr.hcl
