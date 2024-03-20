@@ -4,11 +4,9 @@ require('dotenv').config();
 
 const { format } = require("winston");
 const logger = winston.createLogger({
-  level: "info",
+  level: "debug",
   format: format.combine(
-    format.timestamp({
-      format: "YYYY-MM-DD HH:mm:ss",
-    }),
+    format.timestamp(),
     format.json()
   ),
   transports: [
