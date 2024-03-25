@@ -46,7 +46,6 @@ const validateUserCreation = (req, res, next) => {
       .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: `Extra fields are not allowed` });
   }
-
   next();
 };
 
