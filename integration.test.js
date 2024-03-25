@@ -30,6 +30,7 @@ describe("Integration Test 1 for creating a user and validating using GET", () =
   });
 });
 
+
 describe("Integration Test 2 for Updating a user and Validating using GET", () => {
   test("PUT /v1/user/self - success - Update User", async () => {
     const username = "xd@mail.com";
