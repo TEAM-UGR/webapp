@@ -143,7 +143,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     console.log(User.id);
   } catch (error) {
     logger.error("Error creating user");
-    console.error("Error creating user:", error);
+    console.log("Error creating user:", error);
     res
       .status(555)
       .header("Cache-Control", "no-cache, no-store, must-revalidate")
