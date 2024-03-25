@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const { User } = require("../models/User");
 const logger = require("../config/logger");
 const { log } = require("winston");
-const pub = require("../config/pubsub")
+const pub = require("../config/pubsub");
 
 router.use(express.json());
 
@@ -118,29 +118,39 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     });
 
     const { password: _, ...userData } = user.toJSON();
-    res
-      .status(201)
-      .header("Cache-Control", "no-cache, no-store, must-revalidate")
-      .json(userData);
-    // logger.info("Succesfully created new User", User.id);
+
+    await pub(
+      JSON.stringify(userData),
+      "development-414823",
+      "verify_email",
+      "user-created"
+    );
+
+
     logger.info({
       id: userData.id,
       message: "Succesfully created new User",
       status: 201,
       request_method: req.method,
     });
+
+    logger.warn({
+      id: null,
+      message:
+        "Account created and account updated fields will not be updated if the values are passed though the request body",
+    });
+
+    return res
+      .status(201)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json(userData);
+    // logger.info("Succesfully created new User", User.id);
+
     // const userCreated = {
     //   first_name: userData.first_name,
     //   last_name: userData.last_name,
     //   username: userData.username
     // }
-    await pub(userData,"development-414823","verify_email","create-user")
-
-    logger.warn({
-      id: null,
-      message: "Account created and account updated fields will not be updated if the values are passed though the request body" 
-    })
-    console.log(User.id);
   } catch (error) {
     logger.error("Error creating user");
     console.log("Error creating user:", error);
@@ -353,8 +363,8 @@ router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
         id: null,
         message: "Failed to update user",
         status: 404,
-        status_message: "User not updated"
-      })
+        status_message: "User not updated",
+      });
       return res
         .status(404)
         .header("Cache-Control", "no-cache, no-store, must-revalidate")
@@ -366,8 +376,8 @@ router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
       id: null,
       message: "An error occured while updating user",
       status: 555,
-      status_message: "Failed to update"
-    })
+      status_message: "Failed to update",
+    });
     console.error("Error updating user:", error);
     return res
       .status(555)
@@ -382,7 +392,7 @@ router.all("/v1/user/self", (req, res) => {
     id: null,
     message: "Method not allowed: Trying to make a request that is forbidden",
     request_method: req.method,
-  })
+  });
   res
     .status(405)
     .header("Cache-Control", "no-cache, no-store, must-revalidate")
