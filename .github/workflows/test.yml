@@ -34,5 +34,10 @@ jobs:
       - name: Start mysql server
         run: sudo systemctl start mysql
 
+      - name: GCLOUD SA validation
+        uses: "google-github-actions/auth@v2"
+        with:
+            credentials_json: "${{ secrets.GCP_SA_Key}}"
+
       - name: Test
         run: npm test
