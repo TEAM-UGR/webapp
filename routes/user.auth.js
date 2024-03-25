@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const { User } = require("../models/User");
 const logger = require("../config/logger");
 const { log } = require("winston");
+const pub = require("../config/pubsub")
 
 router.use(express.json());
 
@@ -55,7 +56,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
 
   if (!fullPath.startsWith(basePath) || fullPath.length > basePath.length) {
     // logger.error("Invalid endpoint");
-    log.error({
+    logger.error({
       id: null,
       message: "Invalid end point",
       request_method: req.method,
@@ -128,6 +129,13 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       status: 201,
       request_method: req.method,
     });
+    // const userCreated = {
+    //   first_name: userData.first_name,
+    //   last_name: userData.last_name,
+    //   username: userData.username
+    // }
+    await pub(userData,"development-414823","verify_email","create-user")
+
     logger.warn({
       id: null,
       message: "Account created and account updated fields will not be updated if the values are passed though the request body" 
