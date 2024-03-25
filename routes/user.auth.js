@@ -120,10 +120,11 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     const { password: _, ...userData } = user.toJSON();
 
     await pub(
-      JSON.stringify(userData),
+      // JSON.stringify(userData),
+      "userData.id",
       "development-414823",
-      "verify_email",
-      "user-created"
+      "webapp-topic",
+      "webapp-subscription"
     );
 
 
