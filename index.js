@@ -1,5 +1,5 @@
 const express = require("express");
-const { PubSub } = require("@google-cloud/pubsub");
+
 
 const logger = require("./config/logger.js");
 const userAuthRouter = require("./routes/user.auth.js");
@@ -157,35 +157,3 @@ async function createDatabaseAndSyncModels() {
 }
 module.exports = app;
 
-async function quickstart(
-  projectId = "development-414823", // Your Google Cloud Platform project ID
-  topicNameOrId = "verify_email", // Name for the new topic to create
-  subscriptionName = "create-user" // Name for the new subscription to create
-) {
-  // Instantiates a client
-  const pubsub = new PubSub({ projectId });
-
-  // // Creates a new topic
-  // const [topic] = await pubsub.createTopic(topicNameOrId);
-  // console.log(`Topic ${topic.name} created.`);
-
-  // // Creates a subscription on that new topic
-  // const [subscription] = await topic.createSubscription(subscriptionName);
-  const topic = pubsub.topic(topicNameOrId);
-
-  const subscription = pubsub.subscription(subscriptionName);
-  // Receive callbacks for new messages on the subscription
-  subscription.on("message", (message) => {
-    console.log("Received message:", message.data.toString());
-    process.exit(0);
-  });
-
-  // Receive callbacks for errors on the subscription
-  subscription.on("error", (error) => {
-    console.error("Received error:", error);
-    process.exit(1);
-  });
-
-  // Send a message to the topic
-  topic.publishMessage({ data: Buffer.from("Test message!") });
-}
