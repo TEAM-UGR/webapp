@@ -117,7 +117,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       token_expiry: new Date(Date.now() + 2 * 60000).toISOString(),
     });
 
-    
+
     const { password: _, ...userData } = user.toJSON();
 
     await pub(
@@ -127,7 +127,6 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       "verify_email",
       "webapp-subscription"
     );
-
 
     logger.info({
       id: userData.id,
