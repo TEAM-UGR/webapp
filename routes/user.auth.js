@@ -270,33 +270,43 @@ router.use((req, res, next) => {
 });
 
 router.get("/v1/user/self", basicAuth, async (req, res) => {
-  const {
-    id,
-    first_name,
-    last_name,
-    username,
-    account_created,
-    account_updated,
-  } = req.user;
-  // logger.info("Succesfull GET request");
-  logger.info({
-    id: id,
-    message: "Succesfull GET Request",
-    request_method: req.method,
-    status: 200,
-    status_message: "OK",
-  });
-  res
-    .status(200)
-    .header("Cache-Control", "no-cache, no-store, must-revalidate")
-    .json({
+  const user = await User.findOne({ where: { token } });
+  if(user.verification_status == true){
+    const {
       id,
       first_name,
       last_name,
       username,
       account_created,
       account_updated,
+    } = req.user;
+    // logger.info("Succesfull GET request");
+    logger.info({
+      id: id,
+      message: "Succesfull GET Request",
+      request_method: req.method,
+      status: 200,
+      status_message: "OK",
     });
+    return res
+      .status(200)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({
+        id,
+        first_name,
+        last_name,
+        username,
+        account_created,
+        account_updated,
+      });
+  }
+  return res
+      .status(400)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({
+        error: `User not verified`,
+      }); 
+  
 });
 
 const validateUserUpdate = (req, res, next) => {
