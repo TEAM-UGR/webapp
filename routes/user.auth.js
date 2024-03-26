@@ -265,7 +265,6 @@ router.use((req, res, next) => {
       .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "Bad Request: Invalid path or query parameters" });
   }
-
   next();
 });
 
