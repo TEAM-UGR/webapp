@@ -163,22 +163,24 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
 
 router.get(`/v1/user/self/:token`, async (req, res) => {
   try {
-    let token = req.params.token;
-    if (!token) {
-      throw new Error("Token not found");
+    let token = req.params.token
+    if(!token){
+      throw new Error("Token not found")
     }
     const user = await User.findOne({ where: { token } });
     if (!user) {
+      
     }
     let time = new Date();
     if (time > user.token_expiry) {
-      throw new Error("Token is expired");
+      throw new Error("Token is expired")
     }
-
+ 
     user.verification_status = true;
     await user.save();
+ 
 
-    res.status(200).json({ message: "User verified" });
+    res.status(200).json({message: "User verified"});
   } catch (error) {
     console.log("Error verifying user:", error);
     res
@@ -186,6 +188,7 @@ router.get(`/v1/user/self/:token`, async (req, res) => {
       .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "Internal creating error" });
   }
+  
 });
 
 router.all("/v1/user", (req, res) => {
@@ -238,6 +241,8 @@ const basicAuth = async (req, res, next) => {
     }
     // Logic to check if user verified is true
 
+
+
     req.user = user;
     next();
   } catch (error) {
@@ -265,47 +270,38 @@ router.use((req, res, next) => {
       .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "Bad Request: Invalid path or query parameters" });
   }
+
   next();
 });
 
 router.get("/v1/user/self", basicAuth, async (req, res) => {
-  const user = await User.findOne({ where: { token } });
-  if(user.verification_status == true){
-    const {
+  const {
+    id,
+    first_name,
+    last_name,
+    username,
+    account_created,
+    account_updated,
+  } = req.user;
+  // logger.info("Succesfull GET request");
+  logger.info({
+    id: id,
+    message: "Succesfull GET Request",
+    request_method: req.method,
+    status: 200,
+    status_message: "OK",
+  });
+  res
+    .status(200)
+    .header("Cache-Control", "no-cache, no-store, must-revalidate")
+    .json({
       id,
       first_name,
       last_name,
       username,
       account_created,
       account_updated,
-    } = req.user;
-    // logger.info("Succesfull GET request");
-    logger.info({
-      id: id,
-      message: "Succesfull GET Request",
-      request_method: req.method,
-      status: 200,
-      status_message: "OK",
     });
-    return res
-      .status(200)
-      .header("Cache-Control", "no-cache, no-store, must-revalidate")
-      .json({
-        id,
-        first_name,
-        last_name,
-        username,
-        account_created,
-        account_updated,
-      });
-  }
-  return res
-      .status(400)
-      .header("Cache-Control", "no-cache, no-store, must-revalidate")
-      .json({
-        error: `User not verified`,
-      }); 
-  
 });
 
 const validateUserUpdate = (req, res, next) => {
