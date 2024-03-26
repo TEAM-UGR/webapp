@@ -114,6 +114,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       password: hashedPassword,
       account_created: new Date().toISOString(),
       account_updated: new Date().toISOString(),
+      token_expiry: new Date(Date.now() + 2 * 60000).toISOString(),
     });
 
     const { password: _, ...userData } = user.toJSON();
@@ -122,7 +123,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       JSON.stringify(userData),
       // "userData.id",
       "development-414823",
-      "webapp-topic",
+      "verify_email",
       "webapp-subscription"
     );
 
@@ -209,7 +210,7 @@ const basicAuth = async (req, res, next) => {
         .header("Cache-Control", "no-cache, no-store, must-revalidate")
         .json({ error: "Invalid username or password" });
     }
-
+    // Logic to check if user verified is true
     req.user = user;
     next();
   } catch (error) {

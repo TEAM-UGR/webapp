@@ -17,7 +17,7 @@ const startupDB = async () => {
     );
     await createSchema();
   } catch (err) {
-    console.log("Error while STarting up DB", err.message);
+    console.log("Error while Starting up DB", err.message);
     throw new Error(err);
   }
 };

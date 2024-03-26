@@ -30,6 +30,28 @@ const User = sequelize.define(
       allowNull: false,
       field: "username",
     },
+    token: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      field: "token",
+      defaultValue: DataTypes.UUIDV4,
+    },
+    verification_status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      field: "verification_status",
+      defaultValue: false,
+    },
+    verification_email_status: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      field: "verification_email_status",
+      defaultValue: false,
+    },
+    token_expiry: {
+      type: DataTypes.DATE,
+      field: "token_expiry"
+    },
   },
   {
     tableName: "users",
@@ -41,6 +63,7 @@ const User = sequelize.define(
 const syncModels = async () => {
   try {
     await sequelize.sync({ force: false });
+    console.log("Try block of syncModels")
   } catch (err) {
     console.log("Error while syncing");
   }
