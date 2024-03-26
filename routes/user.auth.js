@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const { User } = require("../models/User");
 const logger = require("../config/logger");
-const { log } = require("winston");
+const { log, error } = require("winston");
 const pub = require("../config/pubsub");
 
 router.use(express.json());
@@ -117,7 +117,6 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       token_expiry: new Date(Date.now() + 2 * 60000).toISOString(),
     });
 
-
     const { password: _, ...userData } = user.toJSON();
 
     await pub(
@@ -157,6 +156,33 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     console.log("Error creating user:", error);
     res
       .status(555)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({ error: "Internal creating error" });
+  }
+});
+
+router.get(`/v1/user/self/:token`, async (req, res) => {
+  try {
+    let token = req.params.token;
+    if (!token) {
+      throw new Error("Token not found");
+    }
+    const user = await User.findOne({ where: { token } });
+    if (!user) {
+    }
+    let time = new Date();
+    if (time > user.token_expiry) {
+      throw new Error("Token is expired");
+    }
+
+    user.verification_status = true;
+    await user.save();
+
+    res.status(200).json({ message: "User verified" });
+  } catch (error) {
+    console.log("Error verifying user:", error);
+    res
+      .status(401)
       .header("Cache-Control", "no-cache, no-store, must-revalidate")
       .json({ error: "Internal creating error" });
   }
@@ -211,6 +237,7 @@ const basicAuth = async (req, res, next) => {
         .json({ error: "Invalid username or password" });
     }
     // Logic to check if user verified is true
+
     req.user = user;
     next();
   } catch (error) {
