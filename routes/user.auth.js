@@ -118,9 +118,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     });
 
     const { password: _, ...userData } = user.toJSON();
-
-    logger.log("In user.auth.js sending message to subscription")
-
+    logger.info("in userauth before sending message to topic")
     await pub(
       JSON.stringify(userData),
       // "userData.id",
@@ -128,8 +126,8 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       "verify_email",
       "webapp-subscription"
     );
-    logger.log("In user.auth.js sent message to subscription")
-    logger.log(JSON.stringify(userData))
+    logger.info(JSON.stringify(userData))
+    logger.info("In userauth aftern sending message to topic")
 
     const verificationLink = `http://localhost:3000/v1/user/verify/${userData.token}`
     console.log(verificationLink)
