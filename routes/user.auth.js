@@ -124,7 +124,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       // "userData.id",
       "development-414823",
       "verify_email",
-      "webapp-subscription"
+      "webapp-subscription-1"
     );
     logger.info(JSON.stringify(userData))
     logger.info("In userauth aftern sending message to topic")
