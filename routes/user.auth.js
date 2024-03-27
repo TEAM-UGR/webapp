@@ -381,6 +381,7 @@ router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
     }
   }
 
+
   
   try {
     const userId = req.user.id;
