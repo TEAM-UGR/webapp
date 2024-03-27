@@ -23,6 +23,7 @@ const pub = async (message, projectId, topicNameOrId, subscriptionName) => {
     // console.log("Sommme error occurred");
     console.error("Received error:", error);
   }
+  logger.info("Sending message to topic")
   topic.publishMessage({ data: Buffer.from(message) });
   console.log("send message to topic");
   logger.info("Sent message to topic")
