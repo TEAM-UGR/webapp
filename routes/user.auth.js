@@ -119,13 +119,13 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
 
     const { password: _, ...userData } = user.toJSON();
 
-    await pub(
-      JSON.stringify(userData),
-      // "userData.id",
-      "development-414823",
-      "verify_email",
-      "webapp-subscription"
-    );
+    // await pub(
+    //   JSON.stringify(userData),
+    //   // "userData.id",
+    //   "development-414823",
+    //   "verify_email",
+    //   "webapp-subscription"
+    // );
 
     const verificationLink = `http://localhost:3000/v1/user/verify/${userData.token}`
     console.log(verificationLink)
