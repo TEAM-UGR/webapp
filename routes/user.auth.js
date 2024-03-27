@@ -131,7 +131,6 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     logger.log("In user.auth.js sent message to subscription")
     logger.log(JSON.stringify(userData))
 
-
     const verificationLink = `http://localhost:3000/v1/user/verify/${userData.token}`
     console.log(verificationLink)
 
