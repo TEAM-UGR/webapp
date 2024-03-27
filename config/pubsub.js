@@ -16,7 +16,6 @@ const pub = async (message, projectId, topicNameOrId, subscriptionName) => {
   });
   try {
     topic.publishMessage({ data: Buffer.from(message) });
-    
     console.log("in try block pubsub.js:");
   } catch (error) {
     // console.log("Sommme error occurred");
