@@ -284,6 +284,10 @@ router.get("/v1/user/self", basicAuth, async (req, res) => {
     username,
     account_created,
     account_updated,
+    token,
+    verification_status,
+    verification_email_status,
+    token_expiry
   } = req.user;
   // logger.info("Succesfull GET request");
   logger.info({
@@ -303,6 +307,10 @@ router.get("/v1/user/self", basicAuth, async (req, res) => {
       username,
       account_created,
       account_updated,
+      token,
+      verification_status,
+      verification_email_status,
+      token_expiry
     });
 });
 
