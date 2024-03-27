@@ -127,6 +127,9 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
       "webapp-subscription"
     );
 
+    const verificationLink = `http://localhost:3000/v1/user/verify/${userData.token}`
+    console.log(verificationLink)
+
     logger.info({
       id: userData.id,
       message: "Succesfully created new User",
@@ -161,7 +164,8 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
   }
 });
 
-router.get(`/v1/user/self/:token`, async (req, res) => {
+router.get(`/v1/user/verify/:token`, async (req, res) => {
+  console.log("In verify end point")
   try {
     let token = req.params.token;
     if (!token) {
@@ -184,7 +188,7 @@ router.get(`/v1/user/self/:token`, async (req, res) => {
     res
       .status(401)
       .header("Cache-Control", "no-cache, no-store, must-revalidate")
-      .json({ error: "Internal creating error" });
+      .json({ error: "Verification link expired" });
   }
 });
 
