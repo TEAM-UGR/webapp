@@ -9,7 +9,7 @@ const pub = async (message, projectId, topicNameOrId, subscriptionName) => {
     console.log("1 Received message:", message.data.toString());
     // console.log(topicNameOrId)
     // console.log(subscriptionName)
-    // console.log(pubsub)
+  
   });
   subscription.on("error", (error) => {
     console.error("Received error:", error);
