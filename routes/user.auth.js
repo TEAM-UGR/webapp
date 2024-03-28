@@ -5,6 +5,7 @@ const { User } = require("../models/User");
 const logger = require("../config/logger");
 const { log, error } = require("winston");
 const pub = require("../config/pubsub");
+require("dotenv").config();
 
 router.use(express.json());
 
@@ -119,14 +120,15 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
 
     const { password: _, ...userData } = user.toJSON();
     logger.info("in userauth before sending message to topic")
-    await pub(
-      JSON.stringify(userData),
-      // "userData.id",
-      "development-414823",
-      "verify_email",
-      "webapp-subscription-1"
-    );
-    
+    if(process.env.ENV != "dev"){
+      await pub(
+        JSON.stringify(userData),
+        // "userData.id",
+        "development-414823",
+        "verify_email",
+        "webapp-subscription-1"
+      );
+    }
     logger.info(JSON.stringify(userData))
     logger.info("In userauth aftern sending message to topic")
 
@@ -231,8 +233,17 @@ const basicAuth = async (req, res, next) => {
       return res
         .status(401)
         .header("Cache-Control", "no-cache, no-store, must-revalidate")
-        .json({ error: "Invalid username or password" });
+        .json({ error: "In000valid username or password" });
     }
+    if(!user.verification_status && process.env.ENV != "dev"){
+      //add a logger and return statement
+      logger.error("user not verified");
+      return res
+      .status(403)
+      .header("Cache-Control", "no-cache, no-store, must-revalidate")
+      .json({ error: "user not verified" });
+  }
+
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
@@ -243,7 +254,7 @@ const basicAuth = async (req, res, next) => {
         .header("Cache-Control", "no-cache, no-store, must-revalidate")
         .json({ error: "Invalid username or password" });
     }
-    // Logic to check if user verified is true
+
 
     req.user = user;
     next();
@@ -357,6 +368,7 @@ const validateUserUpdate = (req, res, next) => {
 
 router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
   const { first_name, last_name, password } = req.body;
+
   const updateData = {};
 
   if (first_name) updateData.first_name = first_name;
