@@ -87,3 +87,9 @@ jobs:
           echo "ENV=$ENV" >> $GITHUB_ENV
           echo $ENV
 
+      - name: Fetch VM encryption key
+        run: |
+          VMKEY=$(gcloud secrets versions access 1 --secret="vmencryptionkey")
+          echo "VMKEY=$VMKEY" >> $GITHUB_ENV
+          echo $VMKEY
+
