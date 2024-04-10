@@ -94,19 +94,19 @@ jobs:
           echo "VMKEY=$VMKEY" >> $GITHUB_ENV
           echo $VMKEY
 
-      - name: Build Packer
-        id: packer_build
-        run: 
-          packer build centos-nodejs-using-packer.pkr.hcl
+      # - name: Build Packer
+      #   id: packer_build
+      #   run: 
+      #     packer build centos-nodejs-using-packer.pkr.hcl
 
 
       - name: Build Packer
         id: packer_build2
         run: |
-          PACKER_OUTPUT=$(packer build centos-nodejs-using-packer.pkr.hcl)
-          echo "$PACKER_OUTPUT"
-          IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep 'A disk image was created' | grep -o "packer-[0-9]*")
-          echo "IMAGE_ID=$IMAGE_ID"
+          # PACKER_OUTPUT=$(packer build centos-nodejs-using-packer.pkr.hcl)
+          # echo "$PACKER_OUTPUT"
+          # IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep 'A disk image was created' | grep -o "packer-[0-9]*")
+          echo "IMAGE_ID=packer-1712784938"
           echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
 
       - name: Instance Template new Image
@@ -139,7 +139,7 @@ jobs:
               echo "PASSWORD=${{ env.PASSWORD }}" >> /home/webapp-main/.env
               echo "HOST=${{ env.HOST }}" >> /home/webapp-main/.env
               echo "PORT=3000" >> /home/webapp-main/.env
-              echo "ENV=live" >> /home/webapp-main/.env' --format="value(selfLink)"
+              echo "ENV=live" >> /home/webapp-main/.env' --format="value(selfLink)")
 
       - name: Set Instance template
         run: |
