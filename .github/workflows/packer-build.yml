@@ -54,8 +54,8 @@ jobs:
       - name: Install Packer   
         run: packer init centos-nodejs-using-packer.pkr.hcl
 
-      - name: Packer Build
-        run: packer build centos-nodejs-using-packer.pkr.hcl
+      # - name: Packer Build
+      #   run: packer build centos-nodejs-using-packer.pkr.hcl
 
       - name: Fetch database name
         run: |
