@@ -96,6 +96,12 @@ jobs:
 
       - name: Build Packer
         id: packer_build
+        run: 
+          packer build centos-nodejs-using-packer.pkr.hcl
+
+
+      - name: Build Packer
+        id: packer_build2
         run: |
           PACKER_OUTPUT=$(packer build centos-nodejs-using-packer.pkr.hcl)
           echo "$PACKER_OUTPUT"
