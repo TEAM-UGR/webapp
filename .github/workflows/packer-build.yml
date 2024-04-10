@@ -146,8 +146,8 @@ jobs:
         run: |
           echo "Line 1"
           gcloud compute instance-groups managed set-instance-template computeregioninstancegroupmanager \
-          --template=$Path_for_template \
-          --region=us-east1 \
+            --template=$Path_for_template \
+            --region=us-east1 \
           echo "Line 2"
 
       - name: Instance Group Rolling
