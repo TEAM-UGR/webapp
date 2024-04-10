@@ -138,6 +138,8 @@ jobs:
             echo "HOST=${{ env.HOST }}" >> /home/webapp-main/.env
             echo "PORT=3000" >> /home/webapp-main/.env
             echo "ENV=live" >> /home/webapp-main/.env' --format="value(selfLink)")
+            echo "Path_for_template=$Path_for_template" >> $GITHUB_ENV
+
 
       - name: Set Instance template
         run: |
