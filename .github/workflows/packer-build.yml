@@ -60,30 +60,30 @@ jobs:
       - name: Fetch database name
         run: |
           DATABASE=$(gcloud secrets versions access 1 --secret="databasename")
-          echo "DATABASE=$DATABASE" >> $GITHUB_ENV
+          echo "DATABASE=$DATABASE" >> $GITHUB_ENV
           echo $DATABASE
 
       - name: Fetch database password
         run: |
           PASSWORD=$(gcloud secrets versions access 1 --secret="databasepassword")
-          echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
+          echo "PASSWORD=$PASSWORD" >> $GITHUB_ENV
           echo $PASSWORD
 
       - name: Fetch database hostname
         run: |
           HOST=$(gcloud secrets versions access 1 --secret="databasehostname")
-          echo "HOST=$HOST" >> $GITHUB_ENV
+          echo "HOST=$HOST" >> $GITHUB_ENV
           echo $HOST
 
       - name: Fetch PORT
         run: |
           PORT=$(gcloud secrets versions access 1 --secret="port")
-          echo "PORT=$PORT" >> $GITHUB_ENV
+          echo "PORT=$PORT" >> $GITHUB_ENV
           echo $PORT
 
       - name: Fetch ENV value
         run: |
           ENV=$(gcloud secrets versions access 1 --secret="env")
-          echo "ENV=$ENV" >> $GITHUB_ENV
+          echo "ENV=$ENV" >> $GITHUB_ENV
           echo $ENV
 
