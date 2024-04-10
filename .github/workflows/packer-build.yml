@@ -14,6 +14,7 @@ env:
   PASSWORD: ${{  secrets.PASSWORD  }}
   DATABASE: ${{  secrets.DATABASE  }}
   ENV: ${{  secrets.ENV  }}
+  PROJECT_ID: ${{  secrets.PROJECT_ID  }}
 
 jobs:
   packer-build:
@@ -33,7 +34,7 @@ jobs:
 
       - name: Generate ZIP file
         run: zip -r webapp-a2-main.zip .
- 
+
       - name: Install dependencies
         run: npm ci
 
@@ -43,7 +44,7 @@ jobs:
       - name: GCLOUD SA validation
         uses: "google-github-actions/auth@v2"
         with:
-            credentials_json: "${{ secrets.GCP_SA_Key}}"
+          credentials_json: "${{ secrets.GCP_SA_Key}}"
 
       - name: Test
         run: npm test
@@ -51,7 +52,7 @@ jobs:
       - name: Set up Cloud SDK
         uses: "google-github-actions/setup-gcloud@v2"
 
-      - name: Install Packer   
+      - name: Install Packer
         run: packer init centos-nodejs-using-packer.pkr.hcl
 
       # - name: Packer Build
@@ -93,3 +94,62 @@ jobs:
           echo "VMKEY=$VMKEY" >> $GITHUB_ENV
           echo $VMKEY
 
+      - name: Build Packer
+        id: packer_build
+        run: |
+          PACKER_OUTPUT=$(packer build centos-nodejs-using-packer.pkr.hcl)
+          echo "$PACKER_OUTPUT"
+          IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep 'A disk image was created' | grep -o "packer-[0-9]*")
+          echo "IMAGE_ID=$IMAGE_ID"
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
+
+      - name: Instance Template new Image
+        id: create_instance_template
+        run: |
+          TEMPLATE_NAME="computeinstancetemplate-${{ github.run_id }}"
+          echo "TEMPLATE_NAME=$TEMPLATE_NAME" >> $GITHUB_ENV
+          echo "Creating instance template with the image ID: $IMAGE_ID"
+          Path_for_template=$(gcloud compute instance-templates create $TEMPLATE_NAME \
+            --machine-type=e2-medium \
+            --image-project=${{  secrets.PROJECT_ID  }} \
+            --image=$IMAGE_ID \
+            --boot-disk-type=pd-balanced \
+            --boot-disk-size=50 \
+            --region=us-east1 \
+            --subnet=projects/development-414823/regions/us-east1/subnetworks/webapp \
+            --scopes=cloud-platform \
+            --instance-template-region=us-east1 \
+            --create-disk=auto-delete=yes \
+            --boot-disk-kms-key=$VMKEY \
+            --tags=denyfirewalltag,allowfirewalltag \
+            --service-account=ops-agent-sa@development-414823.iam.gserviceaccount.com \
+            --metadata=startup-script=$'
+
+            #!/bin/bash 
+            set -e
+            else
+              echo "DATABASE=${{ env.DATABASE}}" >> /home/webapp-main/.env
+              echo "DB_USER=${{ env.DB_USER }}" >> /home/webapp-main/.env
+              echo "PASSWORD=${{ env.PASSWORD }}" >> /home/webapp-main/.env
+              echo "HOST=${{ env.HOST }}" >> /home/webapp-main/.env
+              echo "PORT=3000" >> /home/webapp-main/.env
+              echo "ENV=live" >> /home/webapp-main/.env' --format="value(selfLink)"
+
+      - name: Set Instance template
+        run: |
+          gcloud compute instance-groups managed set-instance-template computeregioninstancegroupmanager \
+          --template=$Path_for_template \
+          --region=us-east1 \
+
+      - name: Instance Group Rolling
+        run: |
+          gcloud compute instance-groups managed rolling-action start-update computeregioninstancegroupmanager \
+            --max-unavailable=0 \
+            --version template=$Path_for_template \
+            --region us-east1
+
+      - name: Managed instance group refresh
+        run: |
+          gcloud compute instance-groups managed wait-until computeregioninstancegroupmanager \
+            --version-target-reached \
+            --region us-east1
