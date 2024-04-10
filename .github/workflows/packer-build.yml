@@ -114,7 +114,7 @@ jobs:
           TEMPLATE_NAME="computeinstancetemplate-${{ github.run_id }}"
           echo "TEMPLATE_NAME=$TEMPLATE_NAME" >> $GITHUB_ENV
           echo "Creating instance template with the image ID: $IMAGE_ID"
-          Path_for_template=$(gcloud compute instance-templates create $TEMPLATE_NAME \
+          TEMPLATE_PATH=$(gcloud compute instance-templates create $TEMPLATE_NAME \
             --machine-type=e2-medium \
             --image-project=${{  secrets.PROJECT_ID  }} \
             --image=$IMAGE_ID \
@@ -139,22 +139,19 @@ jobs:
             echo "PORT=3000" >> /home/webapp-main/.env
             echo "ENV=live" >> /home/webapp-main/.env' --format="value(selfLink)")
             
-          echo "Path_for_template=$Path_for_template" >> $GITHUB_ENV
-
+            echo "TEMPLATE_PATH=$TEMPLATE_PATH" >> $GITHUB_ENV
 
       - name: Set Instance template
         run: |
-          echo "Line 1"
-          gcloud compute instance-groups managed set-instance-template computeregioninstancegroupmanager \
-            --template=$Path_for_template \
-            --region=us-east1 \
-          echo "Line 2"
+            gcloud compute instance-groups managed set-instance-template $INSTANCE_GROUP_NAME \
+              --template=$TEMPLATE_PATH \
+              --region=us-east1 \
 
       - name: Instance Group Rolling
         run: |
           gcloud compute instance-groups managed rolling-action start-update computeregioninstancegroupmanager \
             --max-unavailable=0 \
-            --version template=$Path_for_template \
+            --version template=$TEMPLATE_PATH \
             --region us-east1
 
       - name: Managed instance group refresh
