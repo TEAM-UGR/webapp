@@ -143,7 +143,7 @@ jobs:
 
       - name: Set Instance template
         run: |
-            gcloud compute instance-groups managed set-instance-template $INSTANCE_GROUP_NAME \
+            gcloud compute instance-groups managed set-instance-template computeregioninstancegroupmanager \
               --template=$TEMPLATE_PATH \
               --region=us-east1 \
 
