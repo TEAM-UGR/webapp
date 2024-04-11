@@ -99,8 +99,8 @@ jobs:
         id: packer_build
         run: |
           echo "Line1"
-          packer build centos-nodejs-using-packer.pkr.hcl
-          # PACKER_OUTPUT=$(packer build centos-nodejs-using-packer.pkr.hcl)
+          # packer build centos-nodejs-using-packer.pkr.hcl
+          PACKER_OUTPUT=$(packer build centos-nodejs-using-packer.pkr.hcl)
           echo "Line2"
           echo "$PACKER_OUTPUT"
           IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep 'A disk image was created' | grep -o "packer-[0-9]*")
