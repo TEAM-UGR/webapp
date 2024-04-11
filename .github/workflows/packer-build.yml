@@ -54,7 +54,7 @@ jobs:
       # - name: Packer Build
       #   run: packer build centos-nodejs-using-packer.pkr.hcl
 
-      - name: Fetch database name
+      - name: Get database name
         run: |
           DATABASE=$(gcloud secrets versions access 1 --secret="databasename")
           echo "DATABASE=$DATABASE" >> $GITHUB_ENV
