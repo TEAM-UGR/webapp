@@ -96,11 +96,12 @@ jobs:
       #     packer build centos-nodejs-using-packer.pkr.hcl
 
       - name: Build Packer
-        id: packer_build2
+        id: packer_build
         run: |
           PACKER_OUTPUT=$(packer build centos-nodejs-using-packer.pkr.hcl)
           echo "$PACKER_OUTPUT"
           IMAGE_ID=$(echo "$PACKER_OUTPUT" | grep 'A disk image was created' | grep -o "packer-[0-9]*")
+          echo "IMAGE_ID=$IMAGE_ID"
           echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_ENV
 
       - name: Instance Template new Image

@@ -763,3 +763,95 @@ https://mailchimp.com/
 
 
 
+
+Assignment #07¶
+Due Date¶
+Section	Submission Due Date	Grading Due Date
+Boston	03/27/2024 @ 6 PM EDT	04/03/2024 @ 9 PM EDT
+Seattle & Silicon Valley	03/29/2024 @ 9 PM PDT	04/05/2024 @ 6 PM PDT
+Google Cloud APIs To Enable from Console¶
+Cloud Build API
+Cloud Functions API
+Cloud Logging API
+Cloud Pub/Sub API
+Eventarc API
+Cloud Pub/Sub API
+Cloud Run Admin API
+Serverless w/Cloud Functions¶
+Create & Setup GitHub Repository for Cloud Functions¶
+Create a new private GitHub repository for infrastructure in the GitHub organization you created.
+The GitHub repository name must be serverless.
+Update README.md in your repository.
+Fork the GitHub repository in your namespace. You will do all development work on your fork.
+All code for Lambda Functions should now be in this repository.
+Add appropriate .gitignore to your repository. A collection of useful .gitignore templates can be found here.
+Implement Cloud Function¶
+The Cloud function will be invoked by the pub/sub when a new user account is created.
+The Cloud function is responsible for following:
+Email the user a link they can click to verify their email address. The verification link should expire after 2 minutes. This low limit will allow for quicker demo. An expired link cannot be used to verify the user.
+Track the emails sent in CloudSQL instance. You can use the same instance & database used by the web application
+Pub/Sub¶
+Create a topic verify_email and set up a subscription for the Cloud Function.
+Set data retention period for the topic to be 7 days.
+Web Application Updates¶
+Update web application to now publish a message to pub/sub topic when a new user account is created. The payload (message) should be in JSON with all relevant information (you decide what this is) that will be needed by the Cloud Function to send email to the user and track the link verification.
+All API calls from user account that has not been verified are blocked until the user completes the verification.
+You are not expected to add new API endpoints for user to request a new verification link once the current one has expired.
+Bind appropriate IAM role (cannot be admin) to publish message to the topic.
+Infrastructure as Code w/Terraform¶
+Create the pub/sub topic, subscription, IAM, service accounts, role bindings, Cloud Functions and any other resources required using Terraform.
+Note: I ran into this permission issue Service account(s) might not have enough permissions to deploy the function with selected trigger. To mitigate potential errors, you can grant them the following roles: roles/iam.serviceAccountTokenCreator to service-<project-id>@gcp-sa-pubsub.iam.gserviceaccount.com
+Terraform Resources¶
+google_pubsub_topic
+google_pubsub_subscription
+google_cloudfunctions_function
+IAM policy for Cloud Functions CloudFunction
+IAM policy for Pubsub Subscription
+IAM policy for Cloud Pub/Sub Topic
+Submission¶
+Danger
+
+The assignment will be considered late if uploaded to Canvas after the due date.
+DO NOT UPLOAD CODE FROM YOUR FORKED REPOSITORY TO CANVAS
+All work for this assignment must be done on the feature branch in your fork and merged to the main branch.
+Submit your code from all the repositories in this assignment. Read the instructions carefully to create your zip file.
+Create a folder with the naming convention firstname_lastname_neuid_## where ## is the assignment number.
+In the firstname_lastname_neuid_##directory clone all of your GitHub (organization) repositories with the git clone command. It is important that you clone the repos so that your commit history and branches are preserved.
+Once you have cloned all of your repositories, you will create a zip of the firstname_lastname_neuid_## directory. The zip file should be firstname_lastname_neuid_##.zip where ## is the assignment number.
+Now unzip the zip file in some other directory and confirm the content of the zip files.
+Upload the Zip to this assignment.
+You are allowed to resubmit 3 times. If you think there may be an issue with the ZIP file, feel free to submit it again. Only the latest submission will be used for grading.
+Grading Guidelines¶
+Warning
+
+The following guidelines are for information only. They are subject to change at the discretion of the instructor and TA. A 10% penalty will be imposed if the application crashes due to unhandled exceptions/errors.
+
+Previous Assignment Objectives¶
+TAs must verify that students have resolved all open issues from the previous assignment(s).
+
+Git Repository Content Check¶
+Check the repository for any IDE-specific files. IDE configuration files must not be in the repository.
+Verify their .gitignore configuration.
+Check the repository for build artifacts such as .class, .jar, .war files and build, node_modules, venv directory. None of these should be checked into the repository.
+Check for dependencies. Dependencies from the Maven repository or npm or python should not be committed to the git repository.
+Git Forking Workflow¶
+Verify student has followed the git forking workflow. Code is committed using pull requests and is not pushed directly to the main branch.
+Cloud Function & Pub/Sub¶
+Verify new github repository has been created for Cloud functions & Git Forking Workflow is used to commit code to the repository.
+Pub/Sub topic is created by terraform
+CloudFunction is invoked by pub/sub
+CloudFunction sends email to user with verification link
+CloudFunction stores the token & it's expiry in the CloudSQL instance used by the webapp
+CloudFunction cannot be invoked by allUsers
+Web Application¶
+Web application publishes message to pub/sub topic when a new user account is created
+User cannot verify account with expired link
+User cannot make calls to API until the account is verified. Web app must return 403 response code.
+Emails¶
+Email sent by CloudFunction do not go to SPAM
+Validate SPF record for the domain https://dmarcly.com/tools/spf-record-checker
+Validate DKIM for the domain with https://dmarcly.com/tools/dkim-record-checker
+
+
+
+
