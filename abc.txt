@@ -646,6 +646,117 @@ https://registry.terraform.io/providers/hashicorp/google/5.17.0/docs/resources/s
 https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password
 
 
+Assignment #06¶
+Due Date¶
+Section	Submission Due Date	Grading Due Date
+Boston	03/20/2024 @ 9 PM ET	03/27/2024 @ 9 PM ET
+Seattle & Silicon Valley	03/22/2024 @ 9 PM PT	03/29/2024 @ 6 PM PT
+DNS¶
+Register Domain Name¶
+Note
+
+Namecheap offers a free domain with the Github Student Developer pack but only .me TLD domain.
+
+Register a domain name with a domain registrar such as Namecheap, AWS, gandi.net, GoDaddy.
+Your are free to pick a domain name with any TLD.
+DNS Setup - Cloud DNS¶
+Note
+
+This setup should be done manually from the GCP console.
+
+Your new domain will be set up to use the registrar’s name servers by default.
+
+Reference Documentation:
+
+Create, modify, and delete zones
+How to Change DNS For a Domain in Namecheap
+Create A Public Zone & Setup Nameservers for Cloud DNS¶
+Create a public zone in Cloud DNS manually from the GCP console for the your-domain-name.tld.
+Configure Namecheap to use custom name servers provided by Cloud DNS to use the Cloud DNS name servers.
+Infrastructure as Code w/Terraform¶
+Note
+
+<port> refers to the port number at which your application listens.
+
+Cloud DNS zone should be updated by Terraform. Add or Update A record to the Cloud DNS zone so that your domain points to your VM instance and your web application is accessible at http://your-domain-name.tld:<port>/. Note that the port numbers are not part of DNS record.
+Your application must be accessible using root context i.e. http://your-domain-name.tld:<port>/ and not http://your-domain-name.tld:<port>/app-0.1/. Note: This only applies to application build with Java & uses Tomcat to run the application. For most students there is no work to do.
+Application Logging & Metrics¶
+Enable Project APIs¶
+Troubleshoot Ops Agent installation and start-up
+Update Custom Machine Image¶
+Update your packer template to install the Ops Agent in your custom image.
+The Ops Agent must be configured for you application logs (even if these log files don't exist yet).
+Create a Service Account for Virtual Machine & Attach to the Virtual Machine¶
+Create a Service Account to attach to your virtual machine.
+Attach the service account to the compute instance. See https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance#service_account.
+Bind IAM Role to the Service Account¶
+Bind the appropriate role to the service account with google_project_iam_binding
+Roles:
+Logging Admin
+Monitoring Metric Writer
+Email Configuration¶
+Note
+
+The following steps are done manually. You only need to configure Sendgrid or Mailchimp and not both.
+
+Sendgrid.
+Mailchimp
+Web Application Updates¶
+Update application to write Structured Logs in JSON.
+All application log data should be streamed to Google Cloud Observability and available in Log Explorer.
+Submission¶
+Danger
+
+The assignment will be considered late if uploaded to Canvas after the due date.
+DO NOT UPLOAD CODE FROM YOUR FORKED REPOSITORY TO CANVAS
+All work for this assignment must be done on the feature branch in your fork and merged to the main branch.
+Submit your code from all the repositories in this assignment. Read the instructions carefully to create your zip file.
+Create a folder with the naming convention firstname_lastname_neuid_## where ## is the assignment number.
+In the firstname_lastname_neuid_##directory clone all of your GitHub (organization) repositories with the git clone command. It is important that you clone the repos so that your commit history and branches are preserved.
+Once you have cloned all of your repositories, you will create a zip of the firstname_lastname_neuid_## directory. The zip file should be firstname_lastname_neuid_##.zip where ## is the assignment number.
+Now unzip the zip file in some other directory and confirm the content of the zip files.
+Upload the Zip to this assignment.
+You are allowed to resubmit 3 times. If you think there may be an issue with the ZIP file, feel free to submit it again. Only the latest submission will be used for grading.
+Grading Guidelines¶
+Warning
+
+The following guidelines are for information only. They are subject to change at the discretion of the instructor and TA. A 10% penalty will be imposed if the application crashes due to unhandled exceptions/errors.
+
+Previous Assignment Objectives¶
+TAs must verify that students have resolved all open issues from the previous assignment(s).
+
+Git Repository Content Check¶
+Check the repository for any IDE-specific files. IDE configuration files must not be in the repository.
+Verify their .gitignore configuration.
+Check the repository for build artifacts such as .class, .jar, .war files and build, node_modules, venv directory. None of these should be checked into the repository.
+Check for dependencies. Dependencies from the Maven repository or npm or python should not be committed to the git repository.
+Git Forking Workflow¶
+Verify student has followed the git forking workflow. Code is committed using pull requests and is not pushed directly to the main branch.
+DNS¶
+Student has registered domain name or has pre-existing one to use for the course.
+Verify a public Cloud DNS zone has been created in GCP and Nameservers configured with the registrar (namecheap, gandi.net, aws, godaddy, etc). Verification can be done with the command dig NS domainname.tld
+Launching an instance from terraform updates (or creates) an A record for the instance with public IP. Verify this with dig A domainname.tld command. It should return a public IPv4 address of the instance. Verify this by deleting the A record from console and running terraform apply. The plan should have one update for the A record.
+The application is accessible using http://domainname.tld endpoint. Validate existing APIs with this endpoint.
+Application Logging & Metrics¶
+Verify the Ops Agent in installed in the custom image when build with Packer
+The IaC Terraform template creates a service account.
+The IaC Terraform template creates a project level IAM binding for Logging admin role
+The IaC Terraform template creates a project level IAM binding for Monitoring metrics writer role
+The IaC Terraform template assigns the service account to the compute instance
+Application writes structured logs in JSON. Log messages should not be split into multiple log entries in Google Logging Explorer.
+The timestamp of the log message in the log file and GCP logging explorer match
+The severity (INFO, DEBUG, ERROR, WARN) of log message is accurately displayed in CP logging explorer. Log messages should not have DEFAULT severity.
+
+
+Links:
+https://cloud.google.com/dns/docs/zones
+https://www.namecheap.com/support/knowledgebase/article.aspx/767/10/how-can-i-change-the-nameservers-for-my-domain
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_service_account
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_instance#service_account
+https://cloud.google.com/logging/docs/access-control#permissions_and_roles
+https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/google_project_iam#google_project_iam_binding
+https://docs.sendgrid.com/for-developers/sending-email
+https://mailchimp.com/
 
 
 

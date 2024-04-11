@@ -128,7 +128,7 @@ jobs:
             #!/bin/bash 
             set -e
             echo "DATABASE=${{ env.DATABASE}}" >> /home/webapp-main/.env
-            echo "DB_USER=${{ env.DB_USER }}" >> /home/webapp-main/.env
+            echo "DB_USER=dbadmin" >> /home/webapp-main/.env
             echo "PASSWORD=${{ env.PASSWORD }}" >> /home/webapp-main/.env
             echo "HOST=${{ env.HOST }}" >> /home/webapp-main/.env
             echo "PORT=3000" >> /home/webapp-main/.env
