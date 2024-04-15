@@ -43,6 +43,7 @@ To build and deploy this application locally, follow these steps:
 
 1. The application should now be running at http://localhost:3000.
 
+
 ## API Endpoints
 
 # Get User Information
