@@ -50,8 +50,8 @@ const validateUserCreation = (req, res, next) => {
   next();
 };
 
-router.post("/v1/user", validateUserCreation, async (req, res) => {
-  const basePath = "/v1/user";
+router.post("/v2/user", validateUserCreation, async (req, res) => {
+  const basePath = "/v2/user";
   const fullPath = req.originalUrl;
 
   if (!fullPath.startsWith(basePath) || fullPath.length > basePath.length) {
@@ -132,7 +132,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
     logger.info(JSON.stringify(userData))
     logger.info("In userauth aftern sending message to topic")
 
-    const verificationLink = `http://localhost:3000/v1/user/verify/${userData.token}`
+    const verificationLink = `http://localhost:3000/v2/user/verify/${userData.token}`
     console.log(verificationLink)
 
     logger.info({
@@ -169,7 +169,7 @@ router.post("/v1/user", validateUserCreation, async (req, res) => {
   }
 });
 
-router.get(`/v1/user/verify/:token`, async (req, res) => {
+router.get(`/v2/user/verify/:token`, async (req, res) => {
   console.log("In verify end point")
   try {
     let token = req.params.token;
@@ -197,7 +197,7 @@ router.get(`/v1/user/verify/:token`, async (req, res) => {
   }
 });
 
-router.all("/v1/user", (req, res) => {
+router.all("/v2/user", (req, res) => {
   logger.error("Method Not Allowed");
   res
     .status(405)
@@ -269,7 +269,7 @@ const basicAuth = async (req, res, next) => {
 };
 
 router.use((req, res, next) => {
-  const basePath = "/v1/user/self";
+  const basePath = "/v2/user/self";
   const fullPath = req.originalUrl;
 
   if (!fullPath.startsWith(basePath) || fullPath.length > basePath.length) {
@@ -287,7 +287,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/v1/user/self", basicAuth, async (req, res) => {
+router.get("/v2/user/self", basicAuth, async (req, res) => {
   const {
     id,
     first_name,
@@ -366,7 +366,7 @@ const validateUserUpdate = (req, res, next) => {
   next();
 };
 
-router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
+router.put("/v2/user/self", basicAuth, validateUserUpdate, async (req, res) => {
   const { first_name, last_name, password } = req.body;
 
   const updateData = {};
@@ -443,7 +443,7 @@ router.put("/v1/user/self", basicAuth, validateUserUpdate, async (req, res) => {
   }
 });
 
-router.all("/v1/user/self", (req, res) => {
+router.all("/v2/user/self", (req, res) => {
   // logger.error(    "Method not allowed: Trying to make a request that is forbidden");
   logger.error({
     id: null,
