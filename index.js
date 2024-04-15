@@ -18,7 +18,7 @@ const startUp = async () => {
 startUp();
 
 app.use((req, res, next) => {
-  const allowedBasePaths = ["/healthz", "/v1/user", "/v1/user/self"];
+  const allowedBasePaths = ["/healthz", "/v2/user", "/v2/user/self"];
   const fullPath = req.originalUrl;
 
   const isAllowedPath = allowedBasePaths.some(
